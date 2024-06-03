@@ -10,63 +10,31 @@
 
 <script setup>
 import { View, Image } from '@tarojs/components';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import Taro from '@tarojs/taro';
+import { categoryList } from '@/http/api.js';
 
-const boxList = ref([
-	{
-		id: 1,
-		text: '测试文本',
-		icon: 'https://qny.weizulin.cn/images/202406031022801.png',
-		path: '/pages/boxCard/index',
-	},
-	{
-		id: 2,
-		text: '测试文本',
-		icon: 'https://qny.weizulin.cn/images/202406031006296.png',
-		path: '/pages/boxCard/index',
-	},
-	{
-		id: 3,
-		text: '测试文本',
-		icon: 'https://qny.weizulin.cn/images/202406031006296.png',
-		path: '/pages/boxCard/index',
-	},
-	{
-		id: 4,
-		text: '测试文本',
-		icon: 'https://qny.weizulin.cn/images/202406031006296.png',
-		path: '/pages/boxCard/index',
-	},
-	{
-		id: 5,
-		text: '测试文本',
-		icon: 'https://qny.weizulin.cn/images/202406031006296.png',
-		path: '/pages/boxCard/index',
-	},
-	{
-		id: 6,
-		text: '测试文本',
-		icon: 'https://qny.weizulin.cn/images/202406031006296.png',
-		path: '/pages/boxCard/index',
-	},
-	{
-		id: 7,
-		text: '测试文本',
-		icon: 'https://qny.weizulin.cn/images/202406031006296.png',
-		path: '/pages/boxCard/index',
-	},
-	{
-		id: 8,
-		text: '测试文本',
-		icon: 'https://qny.weizulin.cn/images/202406031006296.png',
-		path: '/pages/boxCard/index',
-	},
-]);
+const boxList = ref([]);
+
+onMounted(() => {
+	getCategoryList();
+});
+
+const getCategoryList = async () => {
+	const res = await categoryList();
+	const { data } = res;
+	const tempData = data.map((item) => {
+		return {
+			...item,
+			path: '/pages/boxCard/index',
+		};
+	});
+	boxList.value = tempData;
+};
 
 const handleBoxClick = (item) => {
 	Taro.navigateTo({
-		url: `${item.path}?pageId=${item.id}&text=${item.text}`,
+		url: `${item.path}?pageId=${item.id}`,
 	});
 };
 </script>

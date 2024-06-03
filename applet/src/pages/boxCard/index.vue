@@ -2,7 +2,7 @@
 	<View class="box_card">
 		<nut-cell>
 			<View class="box_card_wrapper">
-				<View class="box_card_text">这世间所有美好的词汇都当配得上你</View>
+				<View class="box_card_text">{{ boxData.text }}</View>
 			</View>
 		</nut-cell>
 		<nut-space fill justify="end">
@@ -14,20 +14,18 @@
 </template>
 
 <script setup>
-import { onMounted, ref, defineExpose } from 'vue';
+import { onMounted, ref } from 'vue';
 import { View } from '@tarojs/components';
 import Taro, { useShareTimeline, useShareAppMessage, useRouter } from '@tarojs/taro';
+import { categoryDetails } from '@/http/api.js';
 
 const shareData = ref({});
 
-const handleShare = () => {
-	const id = 1;
-	shareData.value = {
-		title: '这世间所有美好的词汇都当配得上你',
-		path: `/pages/boxCard/index?id=${id}`,
-	};
-};
+const boxData = ref({}); // 当前数据
 
+const currentPageParams = ref({}); // 当前页面参数
+
+// 转发
 useShareAppMessage((res) => {
 	if (res.from === 'button') {
 		return { ...shareData.value };
@@ -42,15 +40,41 @@ useShareAppMessage((res) => {
 onMounted(() => {
 	const params = useRouter().params;
 
-	// 动态设置标题
-	Taro.setNavigationBarTitle({
-		title: params.text,
-	});
+	currentPageParams.value = params;
+
+	let id = params.id || null;
+
+	handleDetail(params.pageId, id);
 });
 
+// 查看详情
+const handleDetail = async (categoryId, id = null) => {
+	let params = {
+		categoryId,
+		id,
+	};
+	const res = await categoryDetails(params);
+	console.log('res========', res);
+	boxData.value = res.data;
+
+	// 动态设置标题
+	Taro.setNavigationBarTitle({
+		title: res.data.categoryTitle,
+	});
+};
+
+// 分享
+const handleShare = () => {
+	shareData.value = {
+		title: boxData.text,
+		path: `/pages/boxCard/index?pageId=${boxData.categoryId}&id=${boxData.id}`,
+	};
+};
+
+// 复制
 const handleCopy = () => {
 	Taro.setClipboardData({
-		data: '这世间所有美好的词汇都当配得上你',
+		data: boxData.text,
 		success: () => {
 			Taro.showToast({
 				title: '复制成功',
@@ -61,12 +85,10 @@ const handleCopy = () => {
 	});
 };
 
+// 请求接口
 const handleAgain = () => {
-	Taro.showToast({
-		title: '再来一条',
-		icon: 'success',
-		duration: 2000,
-	});
+	const params = currentPageParams.value;
+	handleDetail(params.pageId);
 };
 </script>
 

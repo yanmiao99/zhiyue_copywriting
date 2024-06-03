@@ -7,10 +7,18 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AddCategoryPopup: typeof import('./src/components/addCategoryPopup/index.vue')['default']
     NutButton: typeof import('@nutui/nutui-taro')['Button']
     NutCell: typeof import('@nutui/nutui-taro')['Cell']
+    NutCellGroup: typeof import('@nutui/nutui-taro')['CellGroup']
+    NutConfigProvider: typeof import('@nutui/nutui-taro')['ConfigProvider']
+    NutForm: typeof import('@nutui/nutui-taro')['Form']
+    NutFormItem: typeof import('@nutui/nutui-taro')['FormItem']
     NutGrid: typeof import('@nutui/nutui-taro')['Grid']
     NutGridItem: typeof import('@nutui/nutui-taro')['GridItem']
+    NutInput: typeof import('@nutui/nutui-taro')['Input']
+    NutPopup: typeof import('@nutui/nutui-taro')['Popup']
     NutSpace: typeof import('@nutui/nutui-taro')['Space']
+    NutUploader: typeof import('@nutui/nutui-taro')['Uploader']
   }
 }
