@@ -1,8 +1,8 @@
 // 加盐
-const SALT = "video_watermark_remove";
+const SALT = 'zhiyue_copywriting';
 
 // 端口
-const PORT = 3000;
+const PORT = 3100;
 
 // token过期时间
 const TOKEN_EXPIRES_IN = 3600 * 24 * 7;

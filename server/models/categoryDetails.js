@@ -1,11 +1,15 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    // 定义类方法 (一对多关系)
-    static associate(models) {}
+  class CategoryDetails extends Model {
+    static associate(models) {
+      CategoryDetails.belongsTo(models.Category, {
+        foreignKey: 'categoryId',
+        targetKey: 'id',
+      });
+    }
   }
 
-  User.init(
+  CategoryDetails.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,25 +17,25 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true, // 是否自增
         allowNull: false,
       },
-      username: {
-        type: DataTypes.STRING,
-        // unique: true, // 是否唯一 ( 尽量不要使用 )
-        allowNull: false,
-      },
-      password: {
+      // 内容
+      text: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      status: {
+      isDelete: {
         type: DataTypes.INTEGER,
-        defaultValue: 0, // 0 可用 1 注销
+        defaultValue: 0, // 0 在用 1 删除
+        allowNull: false,
+      },
+      categoryId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: 'User',
+      modelName: 'CategoryDetails',
     }
   );
-  return User;
+  return CategoryDetails;
 };

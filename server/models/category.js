@@ -1,10 +1,10 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class UpdateLog extends Model {
+  class Category extends Model {
     static associate(models) {}
   }
 
-  UpdateLog.init(
+  Category.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -12,19 +12,26 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true, // 是否自增
         allowNull: false,
       },
-      noteContent: {
-        type: DataTypes.TEXT,
+      // 内容
+      text: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      // 图标
+      icon: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       isDelete: {
         type: DataTypes.INTEGER,
-        defaultValue: 0, // 0 未删除 1 已删除
+        defaultValue: 0, // 0 在用 1 删除
+        allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: 'UpdateLog',
+      modelName: 'Category',
     }
   );
-  return UpdateLog;
+  return Category;
 };

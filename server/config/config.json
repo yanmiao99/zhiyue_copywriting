@@ -2,14 +2,14 @@
   "development": {
     "username": "root",
     "password": "12345678",
-    "database": "video_watermark_remove_db",
+    "database": "zhiyue_copywriting_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
-    "username": "video_watermark_remove_db",
-    "password": "12345678",
-    "database": "video_watermark_remove_db",
+    "username": "zhiyue_db",
+    "password": "YYA7m4GSrNZSaXCw",
+    "database": "zhiyue_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
