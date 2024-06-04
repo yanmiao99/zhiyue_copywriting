@@ -1,23 +1,41 @@
 <template>
 	<View class="box_card">
-		<nut-cell>
-			<View class="box_card_wrapper">
-				<View class="box_card_text">{{ boxData.text }}</View>
-			</View>
-		</nut-cell>
-		<nut-space fill justify="end">
-			<nut-button shape="square" type="primary" @click="handleShare" openType="share">分享</nut-button>
-			<nut-button shape="square" type="primary" @click="handleCopy">复制</nut-button>
-			<nut-button shape="square" type="primary" @click="handleAgain">再来一条</nut-button>
-		</nut-space>
+		<configProvider>
+			<nut-cell>
+				<View class="box_card_wrapper">
+					<View class="box_card_text">{{ boxData.text }}</View>
+				</View>
+			</nut-cell>
+			<nut-space fill justify="end">
+				<nut-button
+					shape="square"
+					type="primary"
+					@click="handleShare"
+					openType="share"
+				>
+					分享
+				</nut-button>
+				<nut-button shape="square" type="primary" @click="handleCopy">
+					复制
+				</nut-button>
+				<nut-button shape="square" type="primary" @click="handleAgain">
+					再来一条
+				</nut-button>
+			</nut-space>
+		</configProvider>
 	</View>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import { View } from '@tarojs/components';
-import Taro, { useShareTimeline, useShareAppMessage, useRouter } from '@tarojs/taro';
+import Taro, {
+	useShareTimeline,
+	useShareAppMessage,
+	useRouter,
+} from '@tarojs/taro';
 import { categoryDetails } from '@/http/api.js';
+import configProvider from '@/components/configProvider/index.vue';
 
 const shareData = ref({});
 
@@ -53,6 +71,7 @@ const handleDetail = async (categoryId, id = null) => {
 		categoryId,
 		id,
 	};
+
 	const res = await categoryDetails(params);
 	console.log('res========', res);
 	boxData.value = res.data;
@@ -66,19 +85,26 @@ const handleDetail = async (categoryId, id = null) => {
 // 分享
 const handleShare = () => {
 	shareData.value = {
-		title: boxData.text,
-		path: `/pages/boxCard/index?pageId=${boxData.categoryId}&id=${boxData.id}`,
+		title: boxData.value.text,
+		path: `/pages/boxCard/index?pageId=${boxData.value.categoryId}&id=${boxData.value.id}`,
 	};
 };
 
 // 复制
 const handleCopy = () => {
 	Taro.setClipboardData({
-		data: boxData.text,
+		data: boxData.value.text,
 		success: () => {
 			Taro.showToast({
 				title: '复制成功',
 				icon: 'success',
+				duration: 2000,
+			});
+		},
+		fail: () => {
+			Taro.showToast({
+				title: '复制失败',
+				icon: 'none',
 				duration: 2000,
 			});
 		},
@@ -99,12 +125,15 @@ const handleAgain = () => {
 
 	.box_card_wrapper {
 		min-height: 300px;
+		max-height: 300px;
+		overflow: auto;
 	}
 
 	.box_card_text {
 		display: inline;
 		color: #666;
 		border-bottom: 1px solid #666;
+		line-height: 2em;
 	}
 }
 </style>

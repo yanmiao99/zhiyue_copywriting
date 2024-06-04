@@ -32,7 +32,7 @@ module.exports = {
 	// 不需要自动在文件开头插入 @prettier
 	insertPragma: false,
 	// 使用默认的折行标准 always\never\preserve
-	proseWrap: 'preserve',
+	proseWrap: 'never',
 	// 指定HTML文件的全局空格敏感度 css\strict\ignore
 	htmlWhitespaceSensitivity: 'css',
 	// Vue文件脚本和样式标签缩进

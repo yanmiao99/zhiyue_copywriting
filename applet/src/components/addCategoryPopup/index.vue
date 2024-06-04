@@ -1,37 +1,46 @@
 <template>
-	<nut-form
-		ref="formRef"
-		:model-value="formData"
-		:rules="{
-			text: [{ required: true, message: '请填写内容' }],
-			icon: [{ required: true, message: '请上传图标' }],
-		}"
-	>
-		<nut-form-item label="内容" prop="text">
-			<nut-input v-model="formData.text" placeholder="请输入内容" type="text" />
-		</nut-form-item>
+	<configProvider>
+		<nut-form
+			ref="formRef"
+			:model-value="formData"
+			:rules="{
+				text: [{ required: true, message: '请填写内容' }],
+				icon: [{ required: true, message: '请上传图标' }],
+			}"
+		>
+			<nut-form-item label="内容" prop="text">
+				<nut-input
+					v-model="formData.text"
+					placeholder="请输入内容"
+					type="text"
+				/>
+			</nut-form-item>
 
-		<nut-form-item label="图标" prop="icon">
-			<nut-uploader
-				:before-xhr-upload="beforeXhrUpload"
-				v-model:file-list="formData.fileList"
-				url="https://api.zwzj66.com/api/getPicUrl"
-				accept="image/*"
-				maximum="1"
-			/>
-		</nut-form-item>
+			<nut-form-item label="图标" prop="icon">
+				<nut-uploader
+					:before-xhr-upload="beforeXhrUpload"
+					v-model:file-list="formData.fileList"
+					url="https://api.zwzj66.com/api/getPicUrl"
+					accept="image/*"
+					maximum="1"
+				/>
+			</nut-form-item>
 
-		<View style="margin: 10px">
-			<nut-button block type="primary" @click="submit">提交</nut-button>
-			<nut-button style="margin-top: 10px" block @click="reset">重置</nut-button>
-		</View>
-	</nut-form>
+			<View style="margin: 10px">
+				<nut-button block type="primary" @click="submit">提交</nut-button>
+				<nut-button style="margin-top: 10px" block @click="reset"
+					>重置</nut-button
+				>
+			</View>
+		</nut-form>
+	</configProvider>
 </template>
 
 <script setup>
 import Taro from '@tarojs/taro';
 import { ref, defineEmits } from 'vue';
 import { categoryAdd } from '@/http/api.js';
+import configProvider from '@/components/configProvider/index.vue';
 
 const emit = defineEmits(['close']);
 
@@ -107,20 +116,13 @@ const submit = () => {
 			console.log('success:', formData.value);
 
 			// 提交数据
-			const res = await categoryAdd(formData.value);
-			if (res.code === 200) {
-				Taro.showToast({
-					title: '提交成功',
-					icon: 'success',
-				});
-				reset();
-				emit('close');
-			} else {
-				Taro.showToast({
-					title: '提交失败',
-					icon: 'none',
-				});
-			}
+			await categoryAdd(formData.value);
+			Taro.showToast({
+				title: '提交成功',
+				icon: 'success',
+			});
+			reset();
+			emit('close');
 		} else {
 			console.warn('error:', errors);
 		}
