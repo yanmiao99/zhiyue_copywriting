@@ -2,8 +2,9 @@ export default defineAppConfig({
 	pages: ['pages/index/index', 'pages/boxCard/index', 'pages/my/index'],
 	tabBar: {
 		color: '#383838',
-		selectedColor: '#FC6A9C',
+		selectedColor: '#333',
 		backgroundColor: '#fff',
+		borderStyle: 'white',
 		list: [
 			{
 				pagePath: 'pages/index/index',
@@ -21,7 +22,7 @@ export default defineAppConfig({
 	},
 	window: {
 		backgroundTextStyle: 'light',
-		navigationBarBackgroundColor: '#fff',
+		navigationBarBackgroundColor: '#FBDD02',
 		navigationBarTitleText: 'WeChat',
 		navigationBarTextStyle: 'black',
 	},

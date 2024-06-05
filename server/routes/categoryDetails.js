@@ -93,4 +93,58 @@ router.post(
   }
 );
 
+// 根据分类 id 查询数据, 分页查询, 默认查询 5 条
+router.get('/list', async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+  const categoryId = req.query.categoryId;
+  try {
+    const offset = (page - 1) * limit;
+    const categoryDetailsList = await CategoryDetails.findAndCountAll({
+      where: {
+        categoryId,
+        isDelete: 0,
+      },
+      offset,
+      limit,
+      order: [['id', 'DESC']],
+    });
+    log4js.info(`查询分类id为 ${categoryId} 的详情成功`);
+
+    // 根据分类id查询分类名称
+    const categoryTitle = await Category.findOne({
+      where: {
+        id: categoryId,
+        isDelete: 0,
+      },
+    });
+
+    categoryDetailsList.rows.forEach((list, index) => {
+      list.dataValues.categoryTitle = categoryTitle.text;
+      // 当前数据的索引
+      list.dataValues.index = page * limit - limit + index;
+    });
+
+    res.send({
+      code: 200,
+      msg: '查询成功',
+      data: {
+        list: categoryDetailsList.rows,
+        pagination: {
+          page,
+          limit,
+          totalCount: categoryDetailsList.count,
+        },
+      },
+    });
+  } catch (err) {
+    log4js.error(err);
+    res.send({
+      code: 400,
+      msg: '查询失败',
+      data: err,
+    });
+  }
+});
+
 module.exports = router;

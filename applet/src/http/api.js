@@ -44,6 +44,15 @@ export const categoryDetails = (data) => {
 	});
 };
 
+// 获取分类详情列表
+export const categoryDetailsList = (data) => {
+	return request({
+		url: '/categoryDetails/list',
+		data,
+		method: 'GET',
+	});
+};
+
 // 新增分类详情
 export const categoryDetailsAdd = (data) => {
 	return request({

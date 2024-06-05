@@ -53,6 +53,7 @@
     "@tarojs/runtime": "3.6.30",
     "@tarojs/shared": "3.6.30",
     "@tarojs/taro": "3.6.30",
+    "dayjs": "^1.11.11",
     "vue": "^3.2.40"
   },
   "devDependencies": {

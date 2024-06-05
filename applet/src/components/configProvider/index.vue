@@ -9,8 +9,8 @@
 <script setup>
 import { ref } from 'vue';
 const themeVars = ref({
-	primaryColor: '#fc6a9c',
-	// primaryColorEnd: '#008000',
+	primaryColor: '#FBDD02',
+	buttonPrimaryColor: '#333333',
 });
 </script>
 

@@ -1,5 +1,10 @@
 <template>
 	<configProvider>
+		<customHeader
+			title="我的"
+			bgColor="linear-gradient(90deg, #F9E65B, #ffc042)"
+			textColor="#333"
+		/>
 		<View class="my_wrapper">
 			<nut-cell-group title="新建内容">
 				<nut-cell
@@ -47,6 +52,7 @@ import { ref } from 'vue';
 import addCategoryPopup from '@/components/addCategoryPopup/index.vue';
 import addEntryPopup from '@/components/addEntryPopup/index.vue';
 import configProvider from '@/components/configProvider/index.vue';
+import customHeader from '@/components/customHeader/index.vue';
 
 // 新增分类
 const newCategoryPopup = ref(false);

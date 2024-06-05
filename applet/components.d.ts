@@ -10,6 +10,8 @@ declare module 'vue' {
     AddCategoryPopup: typeof import('./src/components/addCategoryPopup/index.vue')['default']
     AddEntryPopup: typeof import('./src/components/addEntryPopup/index.vue')['default']
     ConfigProvider: typeof import('./src/components/configProvider/index.vue')['default']
+    CustomHeader: typeof import('./src/components/customHeader/index.vue')['default']
+    NutBarrage: typeof import('@nutui/nutui-taro')['Barrage']
     NutButton: typeof import('@nutui/nutui-taro')['Button']
     NutCell: typeof import('@nutui/nutui-taro')['Cell']
     NutCellGroup: typeof import('@nutui/nutui-taro')['CellGroup']
@@ -22,6 +24,8 @@ declare module 'vue' {
     NutPicker: typeof import('@nutui/nutui-taro')['Picker']
     NutPopup: typeof import('@nutui/nutui-taro')['Popup']
     NutSpace: typeof import('@nutui/nutui-taro')['Space']
+    NutSwiper: typeof import('@nutui/nutui-taro')['Swiper']
+    NutSwiperItem: typeof import('@nutui/nutui-taro')['SwiperItem']
     NutUploader: typeof import('@nutui/nutui-taro')['Uploader']
   }
 }
