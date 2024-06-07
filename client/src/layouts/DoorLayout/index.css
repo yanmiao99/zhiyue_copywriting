@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+.door_wrapper {
+  background-color: #eef5ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.door_wrapper .inner_wrapper {
+  background-image: url('@/assets/login/login_bg.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 1920px 1080px;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}

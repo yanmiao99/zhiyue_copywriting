@@ -1,0 +1,74 @@
+body {
+  overflow: hidden;
+}
+
+/* app.css，来自于官网 */
+.pages-main-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.pages-main-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 200ms, transform 200ms;
+}
+
+.pages-main-exit {
+  opacity: 1;
+}
+
+.pages-main-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 200ms, transform 200ms;
+}
+
+/* 字体 */
+
+@font-face {
+  font-family: 'DINPro-Medium';
+  src: url('../public/DINPro/DINPro-Medium.otf') format('truetype');
+}
+
+/* 通用弹窗处理 */
+.modal_wrapper {
+  max-height: 80vh;
+  overflow-y: auto;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* 通用标题文字样式 */
+.data_title {
+  font-size: 20px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #607a77;
+  line-height: 28px;
+  margin: 20px 0;
+}
+
+/* 新建/编辑页面头部样式 */
+.add_and_edit_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background-color: #fff;
+  padding: 0 20px !important;
+  border-radius: 6px;
+}
+
+/* 新建/编辑页面内容样式 */
+.add_and_edit_wrapper {
+  background: #fff;
+  border-radius: 6px;
+  padding: 40px 20px 20px 20px;
+  box-sizing: border-box;
+}

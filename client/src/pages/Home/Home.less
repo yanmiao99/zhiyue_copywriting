@@ -1,0 +1,281 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow-y: scroll;
+}
+
+.home {
+  background-color: #fff;
+  .home_title {
+    width: 200px;
+    height: 55px;
+    background: url('@/assets/images/title_bg.png') no-repeat;
+    background-size: cover;
+    font-size: 40px;
+    font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+    font-weight: 500;
+    color: #474f62;
+    line-height: 55px;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 50px;
+  }
+
+  .home_nav {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    padding: 0 10%;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100px;
+    background: #6c63ff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .home_logo {
+      width: 138px;
+      height: 52px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .home_nav_content {
+      display: flex;
+      align-items: center;
+      span {
+        font-size: 15px;
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        font-weight: 500;
+        color: #f3f3f3;
+        line-height: 17px;
+        margin-right: 60px;
+        cursor: pointer;
+      }
+      .home_nav_login {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 100px;
+        .login {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 126px;
+          height: 43px;
+          background: #ffffff;
+          box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.08);
+          border-radius: 3px 3px 3px 3px;
+          color: #333;
+        }
+      }
+    }
+  }
+
+  .home_banner {
+    width: 100%;
+    height: 1200px;
+    background: #fff url('@/assets/images/welcome_bg.jpg') no-repeat;
+    background-size: 100%;
+  }
+
+  .home_about {
+    width: 80%;
+    height: 354px;
+    margin: 0 auto;
+    background: #ffffff;
+    box-shadow: 0px 50px 70px 0px rgba(162, 182, 212, 0.16);
+    border-radius: 0px 0px 0px 0px;
+    padding: 50px 0;
+    .home_about_content {
+      font-size: 18px;
+      font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+      font-weight: 400;
+      color: #474f62;
+      line-height: 29px;
+      width: 60%;
+      text-align: center;
+      margin: 0 auto;
+      p {
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .home_product {
+    width: 80%;
+    margin: 100px auto;
+    padding: 50px 0;
+    box-sizing: border-box;
+    .home_product_content {
+      .home_product_item {
+        font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 100px 0;
+        position: relative;
+
+        .home_product_bg {
+          background: radial-gradient(ellipse at center, #27d07d 0%, #27d07d 30%, transparent 30%);
+          background-size: 20px 20px;
+          background-repeat: repeat;
+          background-position: 5px center;
+          width: 50px;
+          height: 300px;
+          opacity: 0.4;
+          position: absolute;
+        }
+
+        .home_product_item_img {
+          height: 600px;
+          margin: 0 50px;
+        }
+        .home_product_info {
+          .home_product_item_title {
+            font-size: 36px;
+            font-weight: 500;
+            color: #474f62;
+            line-height: 42px;
+          }
+          .home_product_item_desc {
+            width: 300px;
+            font-size: 24px;
+            font-weight: 400;
+            color: #a9a9a9;
+            line-height: 28px;
+            margin: 25px 0;
+          }
+          .home_product_item_more {
+            font-size: 18px;
+            font-weight: 400;
+            color: #6c63ff;
+            line-height: 21px;
+            cursor: pointer;
+            span {
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .home_contact {
+    position: relative;
+    .home_title {
+      color: #fff;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 80px;
+    }
+    .home_contact_content {
+      background: url('@/assets/images/contact.png') no-repeat;
+      background-size: cover;
+      background-position: center;
+      width: 100%;
+      height: 700px;
+    }
+  }
+
+  .home_footer {
+    height: 500px;
+    background-color: #343945;
+    .home_footer_top {
+      height: 400px;
+      display: flex;
+      .home_footer_top_nav {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        span {
+          font-size: 20px;
+          font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+          font-weight: 400;
+          color: #ffffff;
+          line-height: 27px;
+          margin-bottom: 20px;
+        }
+      }
+
+      .home_footer_top_info {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .home_footer_logo {
+          img {
+            width: 140px;
+            height: 52px;
+          }
+        }
+        .home_footer_top_btn {
+          margin-top: 30px;
+          width: 230px;
+          height: 65px;
+          background: #27d07d;
+          border-radius: 3px;
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+      }
+    }
+    .home_footer_info {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 16px;
+      font-family: Source Han Sans CN-Normal, Source Han Sans CN;
+      font-weight: 400;
+      color: #71757f;
+      line-height: 22px;
+      img {
+        width: 15px;
+        height: 15px;
+        margin: 0 10px;
+      }
+      p {
+        margin-bottom: 10px;
+      }
+      a {
+        color: #71757f;
+      }
+    }
+  }
+}
+
+.ant-anchor-wrapper-horizontal::before {
+  position: inherit !important;
+}
+
+.ant-anchor-link-title {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: #ffffff !important;
+  font-family: Source Han Sans CN-Regular, Source Han Sans CN !important;
+  margin-right: 20px;
+  padding: 5px 20px;
+}
+
+.ant-anchor .ant-anchor-ink {
+  background-color: transparent !important;
+}
+
+.ant-anchor-link-title-active {
+  background: #fff !important;
+  border-radius: 6px;
+  box-sizing: border-box;
+  color: #6c63ff !important;
+}

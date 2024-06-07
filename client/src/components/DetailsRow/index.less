@@ -1,0 +1,27 @@
+.details_row {
+  display: flex;
+  margin: 10px;
+
+  .details_title {
+    font-size: 14px;
+    font-weight: 400;
+    color: #84A4A1;
+    flex-shrink: 0;
+    margin-right: 10px;
+    width: 100px;
+    text-align: right;
+  }
+
+  .details_content {
+    flex: 1;
+
+    video {
+      width: 100%;
+      height: 250px;
+      object-fit: contain;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+    }
+  }
+}

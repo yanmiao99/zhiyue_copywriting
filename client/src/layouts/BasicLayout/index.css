@@ -1,0 +1,36 @@
+body {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+.menuItem {
+  display: flex;
+  align-items: center;
+}
+:global .ant-pro-base-menu .ant-pro-base-menu-item-title {
+  margin-left: 15px !important;
+}
+:global .ant-layout-content {
+  height: calc(100vh - 56px);
+  overflow: auto;
+}
+.icon {
+  width: 1.4em;
+  height: 1.4em;
+}
+.menuCollapsedIcon {
+  padding-left: 10px;
+  padding-top: 5px;
+  box-sizing: border-box;
+}
+.pageContainer {
+  padding: 20px;
+  box-sizing: border-box;
+}
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 20px;
+}

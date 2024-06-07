@@ -1,0 +1,72 @@
+.data_statistics_item {
+  padding: 20px 30px;
+  box-sizing: border-box;
+  background: #ffffff;
+  display: inline-block;
+  border-radius: 6px;
+  text-align: center;
+
+  .data_statistics_item_title {
+    font-size: 14px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #607a77;
+    line-height: 20px;
+  }
+
+  .data_statistics_item_content {
+    height: 53px;
+    font-size: 46px;
+    font-family: DINPro-Medium;
+    font-weight: bold;
+    color: #6c63ff;
+    line-height: 53px;
+    margin: 10px auto;
+  }
+
+  .data_statistics_item_trend {
+    font-size: 14px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #607a77;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .data_statistics_item_trend_item {
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+      white-space: nowrap;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      .triangle {
+        width: 0;
+        height: 0;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent transparent transparent;
+        position: relative;
+        top: -2px;
+      }
+
+      .triangle_up {
+        border-color: transparent transparent #ff751a transparent;
+      }
+
+      .triangle_down {
+        border-color: transparent transparent #6c63ff transparent;
+        transform: rotate(180deg);
+        top: 1px;
+      }
+
+      span {
+        margin: 0 5px;
+      }
+    }
+  }
+}

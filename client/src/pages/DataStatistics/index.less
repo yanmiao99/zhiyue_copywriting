@@ -1,0 +1,28 @@
+.data_wrapper {
+  .data_table {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .data_table_item {
+      width: 50%;
+      margin-right: 20px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .ant-table-wrapper .ant-table-thead > tr > th {
+      background: #fff !important;
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+    .data_table {
+      display: block !important;
+      .data_table_item {
+        width: 100% !important;
+        margin-right: 0;
+      }
+    }
+  }
+}

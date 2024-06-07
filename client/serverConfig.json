@@ -1,0 +1,10 @@
+{
+  "mp": {
+    "platformName": "正式环境",
+    "host": "123.888.88.888",
+    "port": 22,
+    "username": "root",
+    "password": "",
+    "path": "/etc/webui/admin"
+  }
+}
