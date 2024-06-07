@@ -41,6 +41,9 @@ dependencies:
   mysql2:
     specifier: ^3.2.0
     version: 3.2.0
+  nodemailer:
+    specifier: ^6.9.13
+    version: 6.9.13
   passport:
     specifier: ^0.6.0
     version: 0.6.0
@@ -997,6 +1000,11 @@ packages:
 
   /next-tick@1.1.0:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}
+    dev: false
+
+  /nodemailer@6.9.13:
+    resolution: {integrity: sha512-7o38Yogx6krdoBf3jCAqnIN4oSQFx+fMa0I7dK1D+me9kBxx12D+/33wSb+fhOCtIxvYJ+4x4IMEhmhCKfAiOA==}
+    engines: {node: '>=6.0.0'}
     dev: false
 
   /nopt@7.2.0:

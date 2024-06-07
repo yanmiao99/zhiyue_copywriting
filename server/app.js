@@ -32,6 +32,7 @@ const authenticate = (req, res, next) => {
 // 不需要token登录的接口
 app.use('/api/category', require('./routes/category.js'));
 app.use('/api/categoryDetails', require('./routes/categoryDetails.js'));
+app.use('/api/user', require('./routes/user.js'));
 
 // 统一身份验证 (需要token登录的接口)
 const createRouter = (path, handler) => {
@@ -41,7 +42,7 @@ const createRouter = (path, handler) => {
   app.use(path, router);
 };
 
-// createRouter('/api/user', require('./routes/user.js'));
+createRouter('/api/user', require('./routes/user.js'));
 
 // 异常捕获的中间件 ( 需要放在所有路由的最后面 )
 app.use((err, req, res, next) => {

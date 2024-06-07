@@ -1,5 +1,11 @@
 export default defineAppConfig({
-	pages: ['pages/index/index', 'pages/boxCard/index', 'pages/my/index'],
+	pages: [
+		'pages/index/index',
+		'pages/boxCard/index',
+		'pages/my/index',
+		'pages/login/index',
+		'pages/updateUserInfo/index',
+	],
 	tabBar: {
 		color: '#383838',
 		selectedColor: '#333',

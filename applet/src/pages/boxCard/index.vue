@@ -94,6 +94,16 @@
 					<nut-button
 						style="border: none"
 						shape="square"
+						@click="handleCollection"
+					>
+						<template #icon>
+							<Star />
+						</template>
+						收藏
+					</nut-button>
+					<nut-button
+						style="border: none"
+						shape="square"
 						@click="handleShare"
 						openType="share"
 					>
@@ -104,7 +114,7 @@
 					</nut-button>
 					<nut-button style="border: none" shape="square" @click="handleCopy">
 						<template #icon>
-							<Follow />
+							<Fabulous />
 						</template>
 						复制
 					</nut-button>
@@ -124,7 +134,7 @@ import Taro, {
 } from '@tarojs/taro';
 import { categoryDetails, categoryDetailsList } from '@/http/api.js';
 import configProvider from '@/components/configProvider/index.vue';
-import { RectLeft, Share, Follow } from '@nutui/icons-vue-taro';
+import { RectLeft, Share, Fabulous, Star } from '@nutui/icons-vue-taro';
 import { goBackPage } from '@/utils/index.js';
 import dayjs from 'dayjs';
 
@@ -152,7 +162,7 @@ const swiperInitPage = ref(0);
 // page
 const boxDataPage = ref({
 	page: 1,
-	limit: 2,
+	limit: 5,
 	totalCount: 0,
 });
 
@@ -230,6 +240,16 @@ const handleShare = () => {
 		title: boxData.value.text,
 		path: `/pages/boxCard/index?pageId=${boxData.value.categoryId}`,
 	};
+};
+
+// 收藏
+const handleCollection = () => {
+	// todo ...
+	// Taro.showToast({
+	// 	title: '收藏成功',
+	// 	icon: 'success',
+	// 	duration: 2000,
+	// });
 };
 
 // 复制
@@ -368,8 +388,8 @@ const handleNext = () => {
 			flex-direction: column;
 			justify-content: space-between;
 			align-items: center;
-			text-align: center;
 			box-sizing: border-box;
+			text-align: center;
 			.box_card_item_message {
 				border-radius: 30px;
 				padding: 40px;
@@ -379,6 +399,7 @@ const handleNext = () => {
 					padding-bottom: 20px;
 					border-bottom: 1px solid #eee;
 					margin-bottom: 20px;
+					text-align: left;
 				}
 
 				.text_nowrap {
