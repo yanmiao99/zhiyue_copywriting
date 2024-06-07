@@ -3,6 +3,7 @@ const router = express.Router();
 const { Category } = require('../models/index.js');
 const log4js = require('../utils/log4j.js');
 const { validateParams } = require('../utils/index.js');
+const Sequelize = require('sequelize');
 
 // 添加分类
 router.post(
@@ -43,6 +44,9 @@ router.post(
   }),
   async (req, res) => {
     const { id } = req.body;
+
+    console.log('id========', id);
+
     try {
       await Category.update(
         {
@@ -112,21 +116,35 @@ router.post(
 
 // 查询分类
 router.get('/list', async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 999;
+  const text = req.query.text || '';
   try {
-    const list = await Category.findAll({
+    const offset = (page - 1) * limit;
+    const list = await Category.findAndCountAll({
       where: {
         isDelete: 0,
+        // 模糊查询
+        text: {
+          [Sequelize.Op.like]: `%${text}%`,
+        },
       },
-      attributes: {
-        // 设置排除的字段
-        exclude: ['isDelete'],
-      },
+      offset,
+      limit,
+      order: [['id', 'DESC']],
     });
     log4js.info('分类查询成功');
     res.send({
       code: 200,
       msg: '查询成功',
-      data: list,
+      data: {
+        list: list.rows,
+        pagination: {
+          page,
+          limit,
+          totalCount: list.count,
+        },
+      },
     });
   } catch (err) {
     log4js.error(err);

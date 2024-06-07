@@ -23,7 +23,6 @@ export const request = {
   responseInterceptors: [
     response => {
       const { data: { code, data, msg } = {} } = response
-      console.log('code========', code)
 
       if (code === 200) {
         return Promise.resolve({

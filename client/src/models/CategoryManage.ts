@@ -1,49 +1,30 @@
-import {
-  getCourseCategoryList,
-  getClassifyList,
-  addClassify,
-  addCategory,
-  deleteCategory,
-  deleteClassify,
-  getUseasList
-} from '@/services/CategoryManage'
+import { getCategoryList, addCategory, deleteCategory, updateCategory } from '@/services/CategoryManage'
 
 export default () => {
-  const GetCourseCategoryList = <T>(data: T) => {
-    return getCourseCategoryList(data)
+  // 获取分类列表
+  const GetCategoryList = <T>(data: T) => {
+    return getCategoryList(data)
   }
 
-  const GetClassifyList = <T>(data: T) => {
-    return getClassifyList(data)
-  }
-
-  const AddClassify = <T>(data: T) => {
-    return addClassify(data)
-  }
-
+  // 新增分类
   const AddCategory = <T>(data: T) => {
     return addCategory(data)
   }
 
+  // 删除分类
   const DeleteCategory = <T>(data: T) => {
     return deleteCategory(data)
   }
 
-  const DeleteClassify = <T>(data: T) => {
-    return deleteClassify(data)
-  }
-
-  const GetUseasList = <T>(data: T) => {
-    return getUseasList(data)
+  // 更新分类
+  const UpdateCategory = <T>(data: T) => {
+    return updateCategory(data)
   }
 
   return {
-    GetCourseCategoryList,
-    GetClassifyList,
-    AddClassify,
+    GetCategoryList,
     AddCategory,
     DeleteCategory,
-    DeleteClassify,
-    GetUseasList
+    UpdateCategory
   }
 }

@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 import FormUploadImg from '@/components/FormUploadImg'
 
 export default () => {
-  const { GetCategoryList, AddCategory, DeleteCategory, UpdateCategory } = useModel('CategoryManage')
+  const { GetUserList, AddCategory, DeleteCategory, UpdateCategory } = useModel('UserManage')
   const { message, modal } = App.useApp()
   const { BASE_COLOR } = useModel('Global')
   const [pageSize, setPageSize] = useState(5) //  每页数量
@@ -96,18 +96,36 @@ export default () => {
   const originColumns = [
     {
       title: '名称',
-      dataIndex: 'text',
+      dataIndex: 'username',
       width: 100,
       align: 'center'
     },
     {
-      title: '图标',
-      dataIndex: 'icon',
+      title: '所属平台',
+      dataIndex: 'platform',
+      width: 100,
+      align: 'center',
+      valueEnum: {
+        server: { text: '后台', status: 'Success' },
+        applet: { text: '小程序', status: 'Warning' }
+      }
+    },
+    {
+      title: '邮箱',
+      dataIndex: 'email',
+      width: 100,
+      align: 'center'
+    },
+    {
+      title: '头像',
+      dataIndex: 'avatar',
       width: 100,
       hideInSearch: true,
       align: 'center',
       render: (text, row) => {
-        return <img src={text} style={{ width: 50, height: 50 }} />
+        const avatar = row.avatar ? row.avatar : 'https://qny.weizulin.cn/images/202406031006296.png'
+
+        return <img src={avatar} style={{ width: 50, height: 50 }} />
       }
     },
     {
@@ -157,7 +175,7 @@ export default () => {
 
         setCurrentPage(params.current)
         setPageSize(params.pageSize)
-        const res = await GetCategoryList(param)
+        const res = await GetUserList(param)
 
         console.log('res========', res)
 
@@ -178,7 +196,7 @@ export default () => {
           key={Math.random().toString()}
           type='primary'
         >
-          新增分类
+          新增
         </Button>
       }
       scroll={{ x: 'max-content' }}

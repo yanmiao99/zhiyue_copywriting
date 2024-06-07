@@ -82,7 +82,7 @@ const BasicLayout = props => {
         }
       }}
       logo={() => <img src={DEFAULT_LOGO} alt='logo' style={{ height: '35px' }} onClick={handleGoToHome} />}
-      title={''}
+      title={'织月文案'}
       menuDataRender={() => authRoute}
       contentStyle={{ padding: 0 }}
       onCollapse={handleCoolapse}

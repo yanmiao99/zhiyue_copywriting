@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      // 是否删除
       isDelete: {
         type: DataTypes.INTEGER,
         defaultValue: 0, // 0 在用 1 删除

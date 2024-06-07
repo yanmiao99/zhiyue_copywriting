@@ -1,14 +1,13 @@
 /*
  * form.item 上传图片组件
  * 使用方式 :
- *  <FormUploadImg required name='test1' label='催收信息截图' />
+ *  <FormUploadImg required name='test1' label='催收信息截图' echoPicture={legalPersonBackCardPic} />
  * */
 
 import React, { useEffect, useState } from 'react'
 import { Upload, Form, App } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import { useModel } from '@umijs/max'
-import { getAccessToken, getUserInfo } from '../../utils/utils'
 
 /**
  * @name 绑定的名称
@@ -17,22 +16,24 @@ import { getAccessToken, getUserInfo } from '../../utils/utils'
  * @text 文本
  * @tooltip 提示语
  * */
-
-const FormUpload = props => {
-  let { name, label, required, text, tooltip } = props
+const FormUpload = ({ name, label, required, text, tooltip, disabled, maxCount }) => {
   const normFile = e => {
     return e
   }
 
   return (
-    <Form.Item getValueFromEvent={normFile} rules={[{ required, message: `请上传${label}` }]} {...props}>
-      <UploadItem label={label} text={text} />
+    <Form.Item
+      name={name}
+      label={label}
+      getValueFromEvent={normFile}
+      tooltip={tooltip}
+      rules={[{ required, message: `请输入${label}` }]}
+    >
+      <UploadItem label={label} text={text} disabled={disabled} maxCount={maxCount} />
     </Form.Item>
   )
 }
-const UploadItem = props => {
-  const { onChange, value, label, text } = props
-
+const UploadItem = ({ onChange, value, label, text, disabled, maxCount }) => {
   const { UPLOAD_URL } = useModel('Global')
   const { message, modal } = App.useApp()
   const [fileList, setFileList] = useState([])
@@ -59,15 +60,15 @@ const UploadItem = props => {
     if (!isLt2M) {
       message.error('图片不能超过2MB')
     }
-    return (isJpgOrPng && isLt2M) || Upload.LIST_IGNORE
+    return isJpgOrPng && isLt2M
   }
 
   // 上传图片的回调
   const onUploadChange = e => {
     if (e.file.status === 'done') {
       if (e.fileList.length) {
-        const list = e.fileList.filter(i => i.value_attribute || i.response?.data?.filepath)
-        onChange(list[0] ? list[0].value_attribute || list[0].response.data.filepath : '')
+        const list = e.fileList.filter(i => i.value_attribute || i.response?.data?.img_url)
+        onChange(list[0] ? list[0].value_attribute || list[0].response.data.img_url : '')
         message.success('上传成功')
       } else {
         onChange('')
@@ -81,7 +82,7 @@ const UploadItem = props => {
   // 预览图片
   const handlePreview = async file => {
     if (fileList.length) {
-      let url = fileList[0].value_attribute || fileList[0].response?.data?.filepath
+      let url = fileList[0].value_attribute || fileList[0].response?.data?.img_url
       modal.info({
         title: '图片预览',
         width: 500,
@@ -95,8 +96,7 @@ const UploadItem = props => {
 
   return (
     <Upload
-      {...props}
-      maxCount={1}
+      maxCount={maxCount || 1}
       action={UPLOAD_URL}
       accept='image/*'
       beforeUpload={beforeUpload}
@@ -104,15 +104,14 @@ const UploadItem = props => {
       onPreview={handlePreview}
       listType='picture-card'
       fileList={fileList}
-      headers={{
-        token: getAccessToken(),
-        userid: getUserInfo()?.userid || null
-      }}
+      disabled={disabled}
     >
-      <div style={{ padding: '0 10px' }}>
-        <UploadOutlined />
-        <div style={{ marginTop: 8 }}>{text || label}</div>
-      </div>
+      {fileList.length === maxCount ? null : (
+        <div style={{ padding: '0 10px' }}>
+          <UploadOutlined />
+          <div style={{ marginTop: 8 }}>{text || label}</div>
+        </div>
+      )}
     </Upload>
   )
 }

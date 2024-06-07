@@ -47,7 +47,7 @@ createRouter('/api/user', require('./routes/user.js'));
 // 异常捕获的中间件 ( 需要放在所有路由的最后面 )
 app.use((err, req, res, next) => {
   log4js.error(err);
-  // 其他原员导致的错误
+  // 其他原因导致的错误
   res.send({ code: 500, msg: '未知错误,请联系管理员!', err: err.toString() });
 });
 

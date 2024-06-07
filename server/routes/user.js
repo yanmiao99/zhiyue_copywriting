@@ -7,10 +7,10 @@ const jwt = require('jsonwebtoken');
 const { SALT } = require('../config/index.js');
 const passport = require('passport');
 const { TOKEN_EXPIRES_IN } = require('../config/index.js');
-const svgCaptcha = require('svg-captcha');
 const sendEmail = require('../utils/sendEmail.js'); //发送邮件
+const Sequelize = require('sequelize');
 
-let codeMap = {};
+let codeMap = {}; // 临时存储验证码
 
 /**
  * 用户注册
@@ -18,6 +18,7 @@ let codeMap = {};
  * @param password
  * @api {post} /api/user/register 用户注册
  */
+
 router.post('/register', async (req, res) => {
   const { email, username, password, platform, code } = req.body;
 
@@ -311,5 +312,51 @@ router.post(
     }
   }
 );
+
+// 获取用户列表
+router.get('/list', async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const username = req.query.username || '';
+  try {
+    const offset = (page - 1) * limit;
+    const list = await User.findAndCountAll({
+      where: {
+        isDelete: 0,
+        // 模糊查询
+        username: {
+          [Sequelize.Op.like]: `%${username}%`,
+        },
+      },
+      offset,
+      limit,
+      order: [['id', 'DESC']],
+      // 排除密码
+      attributes: {
+        exclude: ['password'],
+      },
+    });
+    log4js.info('用户查询成功');
+    res.send({
+      code: 200,
+      msg: '查询成功',
+      data: {
+        list: list.rows,
+        pagination: {
+          page,
+          limit,
+          totalCount: list.count,
+        },
+      },
+    });
+  } catch (err) {
+    log4js.error(err);
+    res.send({
+      code: 400,
+      msg: '查询失败',
+      data: err,
+    });
+  }
+});
 
 module.exports = router;

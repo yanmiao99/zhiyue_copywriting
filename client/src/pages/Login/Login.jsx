@@ -79,7 +79,7 @@ const Login = () => {
         }}
       >
         <div className={styles.login_form_title}>欢迎回来</div>
-        <div className={styles.login_form_sub_title}>用心诉说,用字传情</div>
+        <div className={styles.login_form_sub_title}>用心诉说，用字传情</div>
 
         <LoginForm
           initialValues={{
