@@ -76,7 +76,7 @@ const barrageList = ref([
 const getCategoryList = async () => {
 	const res = await categoryList();
 	const { data } = res;
-	const tempData = data.map((item) => {
+	const tempData = data.list.map((item) => {
 		return {
 			...item,
 			path: '/pages/boxCard/index',

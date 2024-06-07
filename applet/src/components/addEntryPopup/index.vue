@@ -79,7 +79,7 @@ const columns = ref([]);
 const getCategoryList = async () => {
 	const res = await categoryList();
 	const { data } = res;
-	const tempData = data.map((item) => {
+	const tempData = data.list.map((item) => {
 		return {
 			text: item.text,
 			value: item.id,
