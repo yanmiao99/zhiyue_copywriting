@@ -20,23 +20,32 @@ let codeMap = {}; // 临时存储验证码
  */
 
 router.post('/register', async (req, res) => {
-  const { email, username, password, platform, code } = req.body;
+  const { email, username, password, platform, code, type } = req.body;
 
   // 校验
-  if (!username || !password || !platform || !email || !code) {
-    log4js.error('参数错误');
-    res.send({ code: 400, msg: '参数错误' });
+  if (!username || !password || !platform || !email) {
+    log4js.error('缺少参数');
+    res.send({ code: 400, msg: '缺少参数' });
     return;
   }
 
-  // 判断验证码是否正确
-  if (Number(code) !== Number(codeMap[email])) {
-    res.send({ code: 400, msg: '验证码不正确' });
-    return;
-  }
+  // 如果是后台注册，不需要验证码
+  if (type !== 'server') {
+    // 判断验证码是否存在
+    if (!code) {
+      res.send({ code: 400, msg: '请输入验证码' });
+      return;
+    }
 
-  // 删除验证码
-  delete codeMap[email];
+    // 判断验证码是否正确
+    if (Number(code) !== Number(codeMap[email])) {
+      res.send({ code: 400, msg: '验证码不正确' });
+      return;
+    }
+
+    // 删除验证码
+    delete codeMap[email];
+  }
 
   // 判断邮箱格式
   if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email)) {
@@ -52,7 +61,7 @@ router.post('/register', async (req, res) => {
   }
 
   // 判断平台是否存在
-  if (!['server', 'applet'].includes(platform)) {
+  if (!['server', 'applet', 'all'].includes(platform)) {
     log4js.error('平台不存在');
     res.send({ code: 400, msg: '平台不存在' });
     return;
@@ -137,7 +146,7 @@ router.get('/getCode', async (req, res) => {
  * @api {post} /api/user/login 用户登录
  */
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, platform } = req.body;
 
   // 校验
   if (!email || !password) {
@@ -156,7 +165,7 @@ router.post('/login', async (req, res) => {
 
   if (!emailExists) {
     log4js.error(`邮箱 ${email} 不存在`);
-    res.send({ code: 404, msg: '邮箱不存在' });
+    res.send({ code: 400, msg: '邮箱不存在' });
     return;
   }
 
@@ -164,7 +173,16 @@ router.post('/login', async (req, res) => {
   const cryptoPassword = md5(password + SALT);
   if (emailExists.password !== cryptoPassword) {
     log4js.error(` ${email} 密码不正确`);
-    res.send({ code: 401, msg: '邮箱不存在或密码错误' });
+    res.send({ code: 400, msg: '邮箱不存在或密码错误' });
+    return;
+  }
+
+  console.log('emailExists.platform========', emailExists.platform);
+
+  // 判断平台
+  if (emailExists.platform !== 'all' && emailExists.platform !== platform) {
+    log4js.error(` ${email} 无权限登录`);
+    res.send({ code: 401, msg: '无权限登录' });
     return;
   }
 
@@ -284,16 +302,24 @@ router.post(
   '/updateUserInfo',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    const { username, avatar } = req.body;
+    const { username, avatar, platform, id } = req.body;
+
+    const updateData = {};
+
+    if (platform) {
+      updateData.platform = platform;
+    }
+
     try {
       await User.update(
         {
           username,
           avatar,
+          ...updateData,
         },
         {
           where: {
-            id: req.user.id,
+            id: id ? id : req.user.id,
           },
         }
       );
@@ -318,15 +344,33 @@ router.get('/list', async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const username = req.query.username || '';
+  const email = req.query.email || '';
+  const platform = req.query.platform || '';
+
   try {
     const offset = (page - 1) * limit;
+
     const list = await User.findAndCountAll({
       where: {
         isDelete: 0,
-        // 模糊查询
-        username: {
-          [Sequelize.Op.like]: `%${username}%`,
-        },
+        // 多条件查询
+        [Sequelize.Op.and]: [
+          {
+            username: {
+              [Sequelize.Op.like]: `%${username}%`,
+            },
+          },
+          {
+            email: {
+              [Sequelize.Op.like]: `%${email}%`,
+            },
+          },
+          {
+            platform: {
+              [Sequelize.Op.like]: `%${platform}%`,
+            },
+          },
+        ],
       },
       offset,
       limit,
@@ -354,6 +398,35 @@ router.get('/list', async (req, res) => {
     res.send({
       code: 400,
       msg: '查询失败',
+      data: err,
+    });
+  }
+});
+
+// 删除用户
+router.post('/delete', async (req, res) => {
+  const { id } = req.body;
+  try {
+    await User.update(
+      {
+        isDelete: 1,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+    log4js.info('删除用户成功');
+    res.send({
+      code: 200,
+      msg: '删除成功',
+    });
+  } catch (err) {
+    log4js.error(err);
+    res.send({
+      code: 400,
+      msg: '删除失败',
       data: err,
     });
   }

@@ -16,9 +16,33 @@ export async function getUserInfo() {
 }
 
 // 获取用户列表
-export async function getUserList(params: any) {
+export async function getUserList(data: any) {
   return request('/api/user/list', {
     method: 'GET',
-    params
+    data
+  })
+}
+
+// 删除用户
+export async function deleteUser(data: any) {
+  return request(`/api/user/delete`, {
+    method: 'POST',
+    data
+  })
+}
+
+// 新增用户
+export async function registerUser(data: any) {
+  return request('/api/user/register', {
+    method: 'POST',
+    data
+  })
+}
+
+// 更新用户
+export async function updateUser(data: any) {
+  return request('/api/user/updateUserInfo', {
+    method: 'POST',
+    data
   })
 }

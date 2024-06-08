@@ -57,7 +57,8 @@ const Login = () => {
     if (loginType === 'account') {
       let params = {
         email: values.email,
-        password: values.password
+        password: values.password,
+        platform: 'server'
       }
 
       const res = await Login(params)

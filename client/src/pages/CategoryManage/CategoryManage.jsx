@@ -1,16 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import { useModel } from '@umijs/max'
 import { ProTable } from '@ant-design/pro-components'
-import { App, Button, Form, Input, Popconfirm, DatePicker, Space, Radio } from 'antd'
+import { App, Button, Form, Input, Popconfirm, Space } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import UploadImgList from '@/components/UploadImgList'
 import dayjs from 'dayjs'
 import FormUploadImg from '@/components/FormUploadImg'
 
 export default () => {
+  const { BASE_COLOR } = useModel('Global')
   const { GetCategoryList, AddCategory, DeleteCategory, UpdateCategory } = useModel('CategoryManage')
   const { message, modal } = App.useApp()
-  const { BASE_COLOR } = useModel('Global')
   const [pageSize, setPageSize] = useState(5) //  每页数量
   const [currentPage, setCurrentPage] = useState(1) //  当前页码
   const tableRef = useRef()
@@ -22,17 +21,6 @@ export default () => {
     await DeleteCategory({
       id: row.id
     })
-    tableRef.current.reload()
-    message.success('操作成功')
-  }
-
-  // 发送
-  const handleSendItem = async row => {
-    const params = {
-      ids: [row.id],
-      status: 1
-    }
-    await SendAnnouncementNotify(params)
     tableRef.current.reload()
     message.success('操作成功')
   }
@@ -78,18 +66,6 @@ export default () => {
         tableRef.current.reload()
         message.success('操作成功')
       }
-    })
-  }
-
-  // 查看详情
-  const handleCheckDetails = async row => {
-    modal.info({
-      title: '通知详情',
-      width: 600,
-      maskClosable: true,
-      icon: null,
-      content: 123,
-      okText: '关闭'
     })
   }
 

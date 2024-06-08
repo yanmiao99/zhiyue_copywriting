@@ -35,12 +35,12 @@ export const request = {
 
         setTimeout(() => {
           notification?.error({
-            message: '登录过期, 请重新登录',
+            message: '登录状态错误, 请重新登录',
             description: msg
           })
         }, 100)
 
-        return Promise.reject('登录过期, 请重新登录')
+        return Promise.reject('登录状态错误, 请重新登录')
       } else {
         notification?.error({
           message: `请求错误`,

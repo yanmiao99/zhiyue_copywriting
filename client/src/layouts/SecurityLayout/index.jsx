@@ -15,6 +15,12 @@ const roleType = {
     alias: 'admin',
     router: manageRouter,
     pageRouter: manageRoutes
+  },
+  all: {
+    name: '管理员',
+    alias: 'admin',
+    router: manageRouter,
+    pageRouter: manageRoutes
   }
 }
 

@@ -3,14 +3,14 @@ import { useModel } from '@umijs/max'
 import { ProTable } from '@ant-design/pro-components'
 import { App, Button, Form, Input, Popconfirm, DatePicker, Space, Radio } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import UploadImgList from '@/components/UploadImgList'
 import dayjs from 'dayjs'
 import FormUploadImg from '@/components/FormUploadImg'
+import { getUserInfo } from '@/utils/utils'
 
 export default () => {
-  const { GetUserList, AddCategory, DeleteCategory, UpdateCategory } = useModel('UserManage')
-  const { message, modal } = App.useApp()
   const { BASE_COLOR } = useModel('Global')
+  const { GetUserList, RegisterUser, DeleteUser, UpdateUser } = useModel('UserManage')
+  const { message, modal } = App.useApp()
   const [pageSize, setPageSize] = useState(5) //  每页数量
   const [currentPage, setCurrentPage] = useState(1) //  当前页码
   const tableRef = useRef()
@@ -19,20 +19,15 @@ export default () => {
 
   // 删除
   const handleDeleteItem = async row => {
-    await DeleteCategory({
+    // 判断当前账号是否和删除的一致
+    if (row.id === getUserInfo().id) {
+      message.error('不能删除账号自身')
+      return
+    }
+
+    await DeleteUser({
       id: row.id
     })
-    tableRef.current.reload()
-    message.success('操作成功')
-  }
-
-  // 发送
-  const handleSendItem = async row => {
-    const params = {
-      ids: [row.id],
-      status: 1
-    }
-    await SendAnnouncementNotify(params)
     tableRef.current.reload()
     message.success('操作成功')
   }
@@ -51,15 +46,36 @@ export default () => {
           preserve={false}
           form={addAndEditModalFormRef}
           name='addAndEditModal'
-          initialValues={{}}
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 20 }}
+          initialValues={{
+            platform: 'server'
+          }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
         >
-          <Form.Item name='text' label='名称' rules={[{ required: true, message: '请输入名称' }]}>
-            <Input placeholder='请输入名称' allowClear maxLength='5' />
+          <Form.Item name='username' label='名称' rules={[{ required: true, message: '请输入名称' }]}>
+            <Input placeholder='请输入名称' allowClear />
+          </Form.Item>
+          {type === 'add' && (
+            <>
+              <Form.Item name='email' label='邮箱' rules={[{ required: true, message: '请输入邮箱' }]}>
+                <Input placeholder='请输入邮箱' allowClear />
+              </Form.Item>
+
+              <Form.Item name='password' label='密码' rules={[{ required: true, message: '请输入密码' }]}>
+                <Input.Password placeholder='请输入密码' allowClear />
+              </Form.Item>
+            </>
+          )}
+
+          <Form.Item name='platform' label='所属平台' rules={[{ required: true, message: '请选择所属平台' }]}>
+            <Radio.Group>
+              <Radio value='server'>后台</Radio>
+              <Radio value='applet'>小程序</Radio>
+              <Radio value='all'>全部</Radio>
+            </Radio.Group>
           </Form.Item>
 
-          <FormUploadImg required name='icon' label='图标' />
+          {type === 'edit' && <FormUploadImg required name='avatar' label='头像' />}
         </Form>
       )
     }
@@ -73,23 +89,14 @@ export default () => {
         await addAndEditModalFormRef.validateFields()
         let params = addAndEditModalFormRef.getFieldsValue()
         if (type === 'edit') params.id = row.id
-        type === 'add' ? await AddCategory(params) : await UpdateCategory(params)
+
+        params.type = 'server' // 表明是后台注册
+
+        type === 'add' ? await RegisterUser(params) : await UpdateUser(params)
 
         tableRef.current.reload()
         message.success('操作成功')
       }
-    })
-  }
-
-  // 查看详情
-  const handleCheckDetails = async row => {
-    modal.info({
-      title: '通知详情',
-      width: 600,
-      maskClosable: true,
-      icon: null,
-      content: 123,
-      okText: '关闭'
     })
   }
 
@@ -107,7 +114,8 @@ export default () => {
       align: 'center',
       valueEnum: {
         server: { text: '后台', status: 'Success' },
-        applet: { text: '小程序', status: 'Warning' }
+        applet: { text: '小程序', status: 'Warning' },
+        all: { text: '全部', status: 'Processing' }
       }
     },
     {
@@ -205,7 +213,7 @@ export default () => {
       search={{
         defaultCollapsed: false,
         labelWidth: 'auto',
-        span: 12
+        span: 6
       }}
     />
   )
