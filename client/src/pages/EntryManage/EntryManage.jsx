@@ -1,14 +1,15 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useModel } from '@umijs/max'
 import { ProTable } from '@ant-design/pro-components'
-import { App, Button, Form, Input, Popconfirm, Space } from 'antd'
+import { App, Button, Form, Input, Popconfirm, Space, Select } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
-import FormUploadImg from '@/components/FormUploadImg'
 
 export default () => {
   const { BASE_COLOR } = useModel('Global')
-  const { GetCategoryList, AddCategory, DeleteCategory, UpdateCategory } = useModel('CategoryManage')
+  const { GetCategoryDetailsList, AddCategoryDetails, DeleteCategoryDetail, UpdateCategoryDetails } =
+    useModel('EntryManage')
+  const { GetCategoryList } = useModel('CategoryManage')
   const { message, modal } = App.useApp()
   const [pageSize, setPageSize] = useState(5) //  每页数量
   const [currentPage, setCurrentPage] = useState(1) //  当前页码
@@ -16,9 +17,37 @@ export default () => {
 
   const [addAndEditModalFormRef] = Form.useForm()
 
+  const [categoryMap, setCategoryMap] = useState({}) // 分类映射表
+  const [categoryList, setCategoryList] = useState({}) // 分类列表
+
+  useEffect(() => {
+    getCategoryListInfo()
+  }, [])
+
+  // 获取分类
+  const getCategoryListInfo = async () => {
+    const res = await GetCategoryList()
+
+    // 使用 reduce 方法转换数组为对象
+    const categoriesObject = res.list.reduce((obj, category) => {
+      obj[category.id] = category.text
+      return obj
+    }, {})
+
+    setCategoryMap(categoriesObject)
+
+    const categoriesList = res.list.map(item => {
+      return {
+        label: item.text,
+        value: item.id
+      }
+    })
+    setCategoryList(categoriesList)
+  }
+
   // 删除
   const handleDeleteItem = async row => {
-    await DeleteCategory({
+    await DeleteCategoryDetail({
       id: row.id
     })
     tableRef.current.reload()
@@ -34,20 +63,39 @@ export default () => {
     }
 
     const AddAndEditModal = () => {
+      // 自定义搜索
+      const filterOption = (input, option) => {
+        return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      }
+
       return (
         <Form
           preserve={false}
           form={addAndEditModalFormRef}
           name='addAndEditModal'
           initialValues={{}}
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 20 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
         >
-          <Form.Item name='text' label='名称' rules={[{ required: true, message: '请输入名称' }]}>
-            <Input placeholder='请输入名称' allowClear maxLength='5' />
+          <Form.Item name='categoryId' label='所属分类' rules={[{ required: true, message: '请选择所属分类' }]}>
+            <Select
+              showSearch
+              filterOption={filterOption}
+              allowClear
+              disabled={type === 'edit'}
+              placeholder='请选择所属分类'
+            >
+              {categoryList.map(item => (
+                <Select.Option key={item.value} value={item.value}>
+                  {item.label}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
 
-          <FormUploadImg required name='icon' label='图标' />
+          <Form.Item name='text' label='内容' rules={[{ required: true, message: '请输入内容' }]}>
+            <Input.TextArea placeholder='请输入' allowClear autoSize={{ minRows: 3, maxRows: 5 }} />
+          </Form.Item>
         </Form>
       )
     }
@@ -61,7 +109,7 @@ export default () => {
         await addAndEditModalFormRef.validateFields()
         let params = addAndEditModalFormRef.getFieldsValue()
         if (type === 'edit') params.id = row.id
-        type === 'add' ? await AddCategory(params) : await UpdateCategory(params)
+        type === 'add' ? await AddCategoryDetails(params) : await UpdateCategoryDetails(params)
 
         tableRef.current.reload()
         message.success('操作成功')
@@ -71,19 +119,20 @@ export default () => {
 
   const originColumns = [
     {
-      title: '名称',
+      title: '内容',
       dataIndex: 'text',
       width: 100,
       align: 'center'
     },
     {
-      title: '图标',
-      dataIndex: 'icon',
+      title: '所属分类',
+      dataIndex: 'categoryId',
       width: 100,
-      hideInSearch: true,
       align: 'center',
-      render: (text, row) => {
-        return <img src={text} style={{ width: 50, height: 50 }} />
+      valueType: 'select',
+      valueEnum: categoryMap,
+      render: (_, row) => {
+        return row.categoryTitle
       }
     },
     {
@@ -132,7 +181,7 @@ export default () => {
 
         setCurrentPage(params.current)
         setPageSize(params.pageSize)
-        const res = await GetCategoryList(param)
+        const res = await GetCategoryDetailsList(param)
 
         return {
           data: res.list,
@@ -151,7 +200,7 @@ export default () => {
           key={Math.random().toString()}
           type='primary'
         >
-          新增分类
+          新增词条
         </Button>
       }
       scroll={{ x: 'max-content' }}
@@ -160,7 +209,7 @@ export default () => {
       search={{
         defaultCollapsed: false,
         labelWidth: 'auto',
-        span: 12
+        span: 6
       }}
     />
   )

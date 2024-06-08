@@ -82,7 +82,7 @@ export default () => {
 
     modal.confirm({
       title: type === 'add' ? '新增' : '编辑',
-      width: 400,
+      width: 600,
       icon: null,
       content: <AddAndEditModal />,
       onOk: async () => {
@@ -204,7 +204,7 @@ export default () => {
           key={Math.random().toString()}
           type='primary'
         >
-          新增
+          新增用户
         </Button>
       }
       scroll={{ x: 'max-content' }}

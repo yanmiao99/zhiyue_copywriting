@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Category } = require('../models/index.js');
+const { Category, CategoryDetails } = require('../models/index.js');
 const log4js = require('../utils/log4j.js');
 const { validateParams } = require('../utils/index.js');
 const Sequelize = require('sequelize');
@@ -14,6 +14,23 @@ router.post(
   }),
   async (req, res) => {
     const { text, icon } = req.body;
+
+    // 判断名称是否存在, 如果已经存在,则不允许重名
+    const category = await Category.findOne({
+      where: {
+        text,
+        isDelete: 0,
+      },
+    });
+    if (category) {
+      res.send({
+        code: 400,
+        msg: '分类名称已存在',
+        data: {},
+      });
+      return;
+    }
+
     try {
       await Category.create({
         text,
@@ -45,8 +62,6 @@ router.post(
   async (req, res) => {
     const { id } = req.body;
 
-    console.log('id========', id);
-
     try {
       await Category.update(
         {
@@ -58,6 +73,19 @@ router.post(
           },
         }
       );
+
+      // 删除分类下的所有分类详情
+      await CategoryDetails.update(
+        {
+          isDelete: 1,
+        },
+        {
+          where: {
+            categoryId: id,
+          },
+        }
+      );
+
       log4js.info('删除分类成功');
       res.send({
         code: 200,
@@ -85,6 +113,23 @@ router.post(
   }),
   async (req, res) => {
     const { id, text, icon } = req.body;
+
+    // 判断名称是否存在, 如果已经存在,则不允许重名
+    const category = await Category.findOne({
+      where: {
+        text,
+        isDelete: 0,
+      },
+    });
+    if (category) {
+      res.send({
+        code: 400,
+        msg: '分类名称已存在',
+        data: {},
+      });
+      return;
+    }
+
     try {
       await Category.update(
         {

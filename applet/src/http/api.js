@@ -35,19 +35,10 @@ export const categoryUpdate = (data) => {
 	});
 };
 
-// 获取分类详情
-export const categoryDetails = (data) => {
-	return request({
-		url: '/categoryDetails/first',
-		data,
-		method: 'GET',
-	});
-};
-
 // 获取分类详情列表
 export const categoryDetailsList = (data) => {
 	return request({
-		url: '/categoryDetails/list',
+		url: '/categoryDetails/detailsList',
 		data,
 		method: 'GET',
 	});
