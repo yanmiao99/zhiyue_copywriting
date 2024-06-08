@@ -62,12 +62,12 @@
 									小主，今日文案已推送完！
 								</View>
 								<Text class="box_card_item_desc">
-									每日5份文案，如果想要加更，点击下方看广告按钮，可继续推送。
+									每日5份文案，如果想要加更，点击下方按钮，可继续推送。
 								</Text>
 							</View>
 							<View class="box_card_item_btn_group">
 								<View class="box_card_item_btn" @click="handleNext">
-									看广告刷新
+									继续推送
 								</View>
 							</View>
 						</View>
@@ -132,7 +132,7 @@ import Taro, {
 	useShareAppMessage,
 	useRouter,
 } from '@tarojs/taro';
-import { categoryDetails, categoryDetailsList } from '@/http/api.js';
+import { categoryDetailsList } from '@/http/api.js';
 import configProvider from '@/components/configProvider/index.vue';
 import { RectLeft, Share, Fabulous, Star } from '@nutui/icons-vue-taro';
 import { goBackPage } from '@/utils/index.js';

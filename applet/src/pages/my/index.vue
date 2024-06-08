@@ -28,14 +28,14 @@
 					</View>
 				</View>
 
-				<nut-cell-group title="新建">
+				<!-- <nut-cell-group title="新建">
 					<nut-cell
 						title="新建分类"
 						is-link
 						@click="handleChangeCategory(true)"
 					/>
 					<nut-cell title="新建词条" is-link @click="handleNewEntry(true)" />
-				</nut-cell-group>
+				</nut-cell-group> -->
 
 				<nut-cell-group title="账号">
 					<nut-cell title="退出登录" is-link @click="handleOutUser()" />
