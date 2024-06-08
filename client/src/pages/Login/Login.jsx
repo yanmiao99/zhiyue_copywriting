@@ -70,7 +70,7 @@ const Login = () => {
 
   return (
     <div className={styles.login_content}>
-      <img className={styles.login_logo} src={DEFAULT_LOGO} alt='logo' />
+      {/* <img className={styles.login_logo} src={DEFAULT_LOGO} alt='logo' /> */}
       {hideImg ? null : <div className={styles.login_content_left}></div>}
       <div
         className={styles.login_form_block}

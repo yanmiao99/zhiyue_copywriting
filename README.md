@@ -14,6 +14,23 @@
 
 
 
-## 截图
+## 小程序截图
 
 ![未标题-1](https://qny.weizulin.cn/images/202406081149981.png)
+
+
+
+## 后台截图
+
+![image-20240608195629284](https://qny.weizulin.cn/images/202406081956313.png)
+
+![image-20240608195544253](https://qny.weizulin.cn/images/202406081955344.png)
+
+
+
+## 待开发功能
+
+> - 菜单管理
+> - 弹幕管理
+> - banner 
+
