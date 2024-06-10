@@ -273,14 +273,13 @@ export const setQueryParams = (params: any) => {
 
 export const routeFormat = (list: any) => {
   return list.map((item: any) => ({
-    name: item.menu_name,
+    name: item.name,
     path: item.path === '#' ? `/${Math.floor(Math.random() * 1000000000)}` : item.path,
     component: './UserSum',
-    icon: item.menu_icon,
+    icon: item.icon,
     routes: item.children ? routeFormat(item.children) : null,
     id: item.id,
-    pid: item.menu_pid,
-    auth: item.auth
+    pid: item.parentId
   }))
 }
 

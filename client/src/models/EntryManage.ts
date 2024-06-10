@@ -1,7 +1,7 @@
 import {
   getCategoryDetailsList,
   addCategoryDetails,
-  deleteCategoryDetail,
+  deleteCategoryDetails,
   updateCategoryDetails
 } from '@/services/EntryManage'
 
@@ -17,8 +17,8 @@ export default () => {
   }
 
   // 删除分类
-  const DeleteCategoryDetail = <T>(data: T) => {
-    return deleteCategoryDetail(data)
+  const DeleteCategoryDetails = <T>(data: T) => {
+    return deleteCategoryDetails(data)
   }
 
   // 更新分类
@@ -29,7 +29,7 @@ export default () => {
   return {
     GetCategoryDetailsList,
     AddCategoryDetails,
-    DeleteCategoryDetail,
+    DeleteCategoryDetails,
     UpdateCategoryDetails
   }
 }

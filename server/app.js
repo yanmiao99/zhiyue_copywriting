@@ -43,6 +43,7 @@ const createRouter = (path, handler) => {
 };
 
 createRouter('/api/user', require('./routes/user.js'));
+createRouter('/api/menu', require('./routes/menu.js'));
 
 // 异常捕获的中间件 ( 需要放在所有路由的最后面 )
 app.use((err, req, res, next) => {

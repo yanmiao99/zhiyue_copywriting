@@ -1,15 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import { useModel } from '@umijs/max'
 import { ProTable } from '@ant-design/pro-components'
-import { App, Button, Form, Input, Popconfirm, Space, Select } from 'antd'
+import { App, Button, Form, Input, Popconfirm, Space, InputNumber } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 
 export default () => {
   const { BASE_COLOR } = useModel('Global')
-  const { GetCategoryDetailsList, AddCategoryDetails, DeleteCategoryDetails, UpdateCategoryDetails } =
-    useModel('EntryManage')
-  const { GetCategoryList } = useModel('CategoryManage')
+  const { GetMenuList, AddMenu, DeleteMenu, UpdateMenu } = useModel('MenuManage')
   const { message, modal } = App.useApp()
   const [pageSize, setPageSize] = useState(5) //  每页数量
   const [currentPage, setCurrentPage] = useState(1) //  当前页码
@@ -17,37 +15,9 @@ export default () => {
 
   const [addAndEditModalFormRef] = Form.useForm()
 
-  const [categoryMap, setCategoryMap] = useState({}) // 分类映射表
-  const [categoryList, setCategoryList] = useState({}) // 分类列表
-
-  useEffect(() => {
-    getCategoryListInfo()
-  }, [])
-
-  // 获取分类
-  const getCategoryListInfo = async () => {
-    const res = await GetCategoryList()
-
-    // 使用 reduce 方法转换数组为对象
-    const categoriesObject = res.list.reduce((obj, category) => {
-      obj[category.id] = category.text
-      return obj
-    }, {})
-
-    setCategoryMap(categoriesObject)
-
-    const categoriesList = res.list.map(item => {
-      return {
-        label: item.text,
-        value: item.id
-      }
-    })
-    setCategoryList(categoriesList)
-  }
-
   // 删除
   const handleDeleteItem = async row => {
-    await DeleteCategoryDetails({
+    await DeleteMenu({
       id: row.id
     })
     tableRef.current.reload()
@@ -63,38 +33,39 @@ export default () => {
     }
 
     const AddAndEditModal = () => {
-      // 自定义搜索
-      const filterOption = (input, option) => {
-        return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-      }
-
       return (
         <Form
           preserve={false}
           form={addAndEditModalFormRef}
           name='addAndEditModal'
           initialValues={{}}
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 20 }}
         >
-          <Form.Item name='categoryId' label='所属分类' rules={[{ required: true, message: '请选择所属分类' }]}>
-            <Select
-              showSearch
-              filterOption={filterOption}
-              allowClear
-              disabled={type === 'edit'}
-              placeholder='请选择所属分类'
-            >
-              {categoryList.map(item => (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}
-                </Select.Option>
-              ))}
-            </Select>
+          <Form.Item extra='例: 测试名称' name='name' label='名称' rules={[{ required: true, message: '请输入名称' }]}>
+            <Input placeholder='请输入名称' allowClear maxLength='6' />
           </Form.Item>
 
-          <Form.Item name='text' label='内容' rules={[{ required: true, message: '请输入内容' }]}>
-            <Input.TextArea placeholder='请输入' allowClear autoSize={{ minRows: 3, maxRows: 5 }} />
+          <Form.Item
+            extra='例: icon-zhiyue-caidanguanli'
+            name='icon'
+            label='图标'
+            rules={[{ required: true, message: '请输入图标' }]}
+          >
+            <Input placeholder='请输入图标' allowClear />
+          </Form.Item>
+
+          <Form.Item
+            extra='例: /manage/MenuManage'
+            name='path'
+            label='路径'
+            rules={[{ required: true, message: '请输入路径' }]}
+          >
+            <Input placeholder='请输入路径' allowClear />
+          </Form.Item>
+
+          <Form.Item name='sort' label='排序' rules={[{ required: true, message: '请输入排序' }]}>
+            <Input placeholder='请输入排序' allowClear />
           </Form.Item>
         </Form>
       )
@@ -109,7 +80,7 @@ export default () => {
         await addAndEditModalFormRef.validateFields()
         let params = addAndEditModalFormRef.getFieldsValue()
         if (type === 'edit') params.id = row.id
-        type === 'add' ? await AddCategoryDetails(params) : await UpdateCategoryDetails(params)
+        type === 'add' ? await AddMenu(params) : await UpdateMenu(params)
 
         tableRef.current.reload()
         message.success('操作成功')
@@ -119,21 +90,38 @@ export default () => {
 
   const originColumns = [
     {
-      title: '内容',
-      dataIndex: 'text',
+      title: '名称',
+      dataIndex: 'name',
       width: 100,
       align: 'center'
     },
     {
-      title: '所属分类',
-      dataIndex: 'categoryId',
+      title: '图标',
+      dataIndex: 'icon',
+      width: 100,
+      hideInSearch: true,
+      align: 'center',
+      render: (text, row) => {
+        return (
+          <svg style={{ width: '30px', height: '30px' }} aria-hidden='true'>
+            <use xlinkHref={`#${text}`}></use>
+          </svg>
+        )
+      }
+    },
+    {
+      title: '路径',
+      dataIndex: 'path',
       width: 100,
       align: 'center',
-      valueType: 'select',
-      valueEnum: categoryMap,
-      render: (_, row) => {
-        return row.categoryTitle
-      }
+      hideInSearch: true
+    },
+    {
+      title: '排序',
+      dataIndex: 'sort',
+      width: 100,
+      align: 'center',
+      hideInSearch: true
     },
     {
       title: '创建时间',
@@ -155,6 +143,9 @@ export default () => {
       render: (_, row) => {
         return (
           <Space>
+            <Button type='link' onClick={() => handleAddAndEdit('addSub', row)}>
+              添加子菜单
+            </Button>
             <Button type='link' onClick={() => handleAddAndEdit('edit', row)}>
               编辑
             </Button>
@@ -181,7 +172,7 @@ export default () => {
 
         setCurrentPage(params.current)
         setPageSize(params.pageSize)
-        const res = await GetCategoryDetailsList(param)
+        const res = await GetMenuList(param)
 
         return {
           data: res.list,
@@ -200,7 +191,7 @@ export default () => {
           key={Math.random().toString()}
           type='primary'
         >
-          新增词条
+          新增菜单
         </Button>
       }
       scroll={{ x: 'max-content' }}
@@ -209,7 +200,7 @@ export default () => {
       search={{
         defaultCollapsed: false,
         labelWidth: 'auto',
-        span: 6
+        span: 12
       }}
     />
   )

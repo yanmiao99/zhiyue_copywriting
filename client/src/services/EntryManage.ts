@@ -17,7 +17,7 @@ export async function addCategoryDetails<T>(data: T) {
 }
 
 // 删除
-export async function deleteCategoryDetail<T>(data: T) {
+export async function deleteCategoryDetails<T>(data: T) {
   return request('/api/categoryDetails/delete', {
     method: 'POST',
     data

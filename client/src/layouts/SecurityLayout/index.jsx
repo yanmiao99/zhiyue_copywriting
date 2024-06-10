@@ -4,29 +4,24 @@ import { PageLoading } from '@ant-design/pro-components'
 import BasicLayout from '../BasicLayout'
 import { clearCookie, getUserInfo, routeFormat } from '@/utils/utils'
 
-import manageRouter from '@config/requestRouter/manageRouter'
-
-import manageRoutes from '@config/pageRouter/manageRoutes'
+import manageRoutes from '@config/manageRoutes'
 import { notification } from 'antd'
-
-const roleType = {
-  server: {
-    name: '管理员',
-    alias: 'admin',
-    router: manageRouter,
-    pageRouter: manageRoutes
-  },
-  all: {
-    name: '管理员',
-    alias: 'admin',
-    router: manageRouter,
-    pageRouter: manageRoutes
-  }
-}
 
 const SecurityLayout = () => {
   const { routerList, setRouterList, setUserInfo, CheckUser } = useModel('Global')
   const [isLogin, setIsLogin] = useState(false)
+  const [userMenu, setUserMenu] = useState([]) // 用户菜单
+
+  const { GetMenuList } = useModel('MenuManage')
+
+  // 判断是否有权限登录
+  const isAuth = platform => {
+    if (platform === 'server' || platform === 'all') {
+      return true
+    } else {
+      return false
+    }
+  }
 
   // 获取用户信息
   const fetchUser = async () => {
@@ -35,8 +30,11 @@ const SecurityLayout = () => {
 
       const { username, id, platform } = getUserInfo()
 
+      const userRouterRes = await GetMenuList()
+      setUserMenu(userRouterRes.list)
+
       // 判断用户身份是否已经初始化
-      if (!roleType[platform]) {
+      if (isAuth()) {
         notification.warning({
           message: '身份异常',
           description: '登录账号暂无权限, 请联系管理员'
@@ -45,7 +43,6 @@ const SecurityLayout = () => {
         return
       }
 
-      console.log('当前用户身份🆔 : ' + roleType[platform].name)
       setUserInfo({
         username,
         uid: id
@@ -54,7 +51,7 @@ const SecurityLayout = () => {
       setIsLogin(true)
 
       // 动态生成路由菜单
-      let resRouter = routeFormat(roleType[platform].router)
+      let resRouter = routeFormat(userRouterRes.list)
       setRouterList(resRouter)
     } catch (error) {
       console.log('error========', error)
@@ -98,7 +95,7 @@ const SecurityLayout = () => {
       if (pathname === '/manage' || pathname === '/manage/welcome') {
         // history.push('./welcome')
       } else {
-        let isExistence = roleType[platform].pageRouter.some(item => item.path === pathname)
+        let isExistence = manageRoutes.some(item => item.path === pathname)
         isExistence || history.push('/manage/404')
       }
     } catch (error) {
@@ -114,7 +111,7 @@ const SecurityLayout = () => {
     checkUser()
   }, [])
 
-  return isLogin ? <BasicLayout authRoute={routerList} roleType={roleType} /> : <PageLoading />
+  return isLogin ? <BasicLayout authRoute={routerList} /> : <PageLoading />
 }
 
 export default SecurityLayout

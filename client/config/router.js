@@ -1,4 +1,4 @@
-import manageRoutes from './pageRouter/manageRoutes'
+import manageRoutes from './manageRoutes'
 
 export default [
   {

@@ -34,7 +34,7 @@ export default defineConfig({
       BASE_URL: baseUrl, // 接口地址
       PLATFORM_NAME: '织月文案', // 平台名称
       BASE_COLOR: '#6C63FF', // 主题色
-      ICON_FONT_URL: 'https://at.alicdn.com/t/c/font_4578423_7yjz1ef7ow.js' // 图标库
+      ICON_FONT_URL: 'https://at.alicdn.com/t/c/font_4578423_zhexmlvec28.js' // 图标库
     }
   },
   outputPath: 'dist/admin',

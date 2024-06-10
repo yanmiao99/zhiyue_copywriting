@@ -13,5 +13,10 @@ export default [
     name: '用户管理',
     path: '/manage/UserManage',
     component: './UserManage/UserManage'
+  },
+  {
+    name: '菜单管理',
+    path: '/manage/MenuManage',
+    component: './MenuManage/MenuManage'
   }
 ]
