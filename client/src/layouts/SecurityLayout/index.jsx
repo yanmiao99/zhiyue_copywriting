@@ -95,8 +95,15 @@ const SecurityLayout = () => {
       if (pathname === '/manage' || pathname === '/manage/welcome') {
         // history.push('./welcome')
       } else {
-        let isExistence = manageRoutes.some(item => item.path === pathname)
-        isExistence || history.push('/manage/404')
+        // 判断路由是否存在
+        let manageIsExistence = manageRoutes.some(item => item.path === pathname)
+        // 判断用户是否有权限
+        let userIsExistence = userMenu.some(item => item.path === pathname)
+
+        // 如果路由不存在或者用户没有权限, 则跳转到404页面
+        if (!manageIsExistence || !userIsExistence) {
+          history.push('/manage/404')
+        }
       }
     } catch (error) {
       goLogin()

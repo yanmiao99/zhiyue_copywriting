@@ -31,10 +31,17 @@ export default () => {
   const [addAndEditModalFormRef] = Form.useForm()
 
   // 删除
-  const handleDeleteItem = async row => {
-    await DeleteMenu({
-      id: row.id
-    })
+  const handleDeleteItem = async (type, row) => {
+    if (type === 'deleteSub') {
+      await DeleteSubMenu({
+        parentId: row.parentId,
+        id: row.id
+      })
+    } else {
+      await DeleteMenu({
+        id: row.id
+      })
+    }
     tableRef.current.reload()
     message.success('操作成功')
   }
@@ -213,7 +220,10 @@ export default () => {
             <Button type='link' onClick={() => handleAddAndEdit(row.parentId === 0 ? 'edit' : 'editSub', row)}>
               编辑
             </Button>
-            <Popconfirm title='确定要删除吗？' onConfirm={() => handleDeleteItem(row)}>
+            <Popconfirm
+              title='确定要删除吗？'
+              onConfirm={() => handleDeleteItem(row.parentId === 0 ? 'delete' : 'deleteSub', row)}
+            >
               <Button type='link' danger>
                 删除
               </Button>
