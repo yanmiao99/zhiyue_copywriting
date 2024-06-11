@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import './index.less'
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons'
-import type { MenuProps } from 'antd'
 import { Dropdown, Avatar } from 'antd'
 import { history, useModel } from '@umijs/max'
 import { clearLogin } from '@/utils/utils'
 
 const AvatarMenu = () => {
   const { userInfo } = useModel('Global')
-  const [items, setItems] = useState<MenuProps['items']>([
+  const [items, setItems] = useState([
+    {
+      label: '个人中心',
+      key: 'center',
+      icon: <UserOutlined />
+    },
     {
       label: '退出登录',
       key: 'exit',
@@ -21,15 +25,11 @@ const AvatarMenu = () => {
     history.replace('/main/login')
   }
 
-  interface IkeyMap {
-    [key: string]: () => void
-  }
-
-  const keyMap: IkeyMap = {
+  const keyMap = {
     exit: () => handleExitUserLogin()
   }
 
-  const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
+  const handleMenuClick = ({ key }) => {
     keyMap[key]()
   }
 
@@ -37,7 +37,7 @@ const AvatarMenu = () => {
     items,
     onClick: handleMenuClick
   }
-  
+
   return (
     <Dropdown menu={menuProps} trigger={['click']}>
       <div className={'box'}>

@@ -26,7 +26,7 @@ const SecurityLayout = () => {
   // 获取用户信息
   const fetchUser = async () => {
     try {
-      console.log('getUserInfo()========', getUserInfo())
+      // console.log('getUserInfo()========', getUserInfo())
 
       const { username, id, platform } = getUserInfo()
 
@@ -43,6 +43,22 @@ const SecurityLayout = () => {
         return
       }
 
+      // 检查用户菜单权限
+      const { pathname } = location
+      if (pathname === '/manage' || pathname === '/manage/welcome') {
+        // history.push('./welcome')
+      } else {
+        // 判断路由是否存在
+        let manageIsExistence = manageRoutes.some(item => item.path === pathname)
+        // 判断用户是否有权限
+        let userIsExistence = userRouterRes.list.some(item => item.path === pathname)
+        // 如果路由不存在或者用户没有权限, 则跳转到404页面
+        if (!manageIsExistence || !userIsExistence) {
+          history.push('/manage/404')
+        }
+      }
+
+      // 设置用户信息
       setUserInfo({
         username,
         uid: id
@@ -87,36 +103,9 @@ const SecurityLayout = () => {
     history.push(target)
   }
 
-  // 判断路由权限
-  const checkRole = () => {
-    try {
-      const { platform } = getUserInfo()
-      const { pathname } = location
-      if (pathname === '/manage' || pathname === '/manage/welcome') {
-        // history.push('./welcome')
-      } else {
-        // 判断路由是否存在
-        let manageIsExistence = manageRoutes.some(item => item.path === pathname)
-        // 判断用户是否有权限
-        let userIsExistence = userMenu.some(item => item.path === pathname)
-
-        // 如果路由不存在或者用户没有权限, 则跳转到404页面
-        if (!manageIsExistence || !userIsExistence) {
-          history.push('/manage/404')
-        }
-      }
-    } catch (error) {
-      goLogin()
-    }
-  }
-
-  useEffect(() => {
-    checkRole()
-  }, [location.pathname])
-
   useEffect(() => {
     checkUser()
-  }, [])
+  }, [location.pathname])
 
   return isLogin ? <BasicLayout authRoute={routerList} /> : <PageLoading />
 }

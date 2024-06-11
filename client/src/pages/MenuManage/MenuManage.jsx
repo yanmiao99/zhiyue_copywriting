@@ -58,7 +58,9 @@ export default () => {
     const AddAndEditModal = () => {
       return (
         <>
-          {type === 'addSub' && <Alert message='添加子菜单后,一级菜单将不可跳转,而是用于展开子菜单' type='info' />}
+          {type === 'addSub' && (
+            <Alert showIcon message='添加子菜单后,一级菜单将不可跳转,而是用于展开子菜单' type='info' />
+          )}
           <div
             style={{
               marginTop: '20px'

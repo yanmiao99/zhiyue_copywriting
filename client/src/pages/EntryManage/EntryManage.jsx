@@ -74,8 +74,8 @@ export default () => {
           form={addAndEditModalFormRef}
           name='addAndEditModal'
           initialValues={{}}
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 20 }}
         >
           <Form.Item name='categoryId' label='所属分类' rules={[{ required: true, message: '请选择所属分类' }]}>
             <Select

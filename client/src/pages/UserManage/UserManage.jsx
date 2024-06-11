@@ -49,8 +49,8 @@ export default () => {
           initialValues={{
             platform: 'server'
           }}
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 20 }}
         >
           <Form.Item name='username' label='名称' rules={[{ required: true, message: '请输入名称' }]}>
             <Input placeholder='请输入名称' allowClear />
