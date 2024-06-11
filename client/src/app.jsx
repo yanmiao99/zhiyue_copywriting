@@ -1,9 +1,10 @@
 import { notification } from '@/utils/AntdGlobal'
-import { DEFAULT_NAME } from '@/constants'
+import { DEFAULT_NAME, BASE_URL } from '@/constants'
 import { history } from '@umijs/max'
 
 // 处理请求的拦截器
 export const request = {
+  baseURL: BASE_URL,
   timeout: 30000,
   errorConfig: {},
   requestInterceptors: [

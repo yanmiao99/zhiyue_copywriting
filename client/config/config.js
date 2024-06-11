@@ -1,7 +1,7 @@
 import { defineConfig } from '@umijs/max'
 import routes from './router.js'
-// const baseUrl = 'https://zhiyueapi.funjs.top'
-const baseUrl = 'http://localhost:3100'
+const baseUrl = 'https://zhiyueapi.funjs.top'
+// const baseUrl = 'http://localhost:3100'
 
 export default defineConfig({
   antd: {},
