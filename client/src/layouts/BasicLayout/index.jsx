@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { ProLayout } from '@ant-design/pro-components'
 import { Spin, ConfigProvider, App as AntdApp } from 'antd'
 import AvatarMenu from '@/components/AvatarMenu'
-import { DEFAULT_LOGO, BASE_COLOR, ICON_FONT_URL } from '@/constants'
 import zhCN from 'antd/locale/zh_CN'
 import dayjs from 'dayjs'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
@@ -24,7 +23,8 @@ const BasicLayout = props => {
     : []
 
   const location = useLocation()
-  const { isLoading, platformType, setContentWidth } = useModel('Global')
+  const { isLoading, platformType, setContentWidth, defaultName, BASE_COLOR, DEFAULT_LOGO, ICON_FONT_URL } =
+    useModel('Global')
   const [collapsed, setCollapsed] = useState(false)
   const currentOutlet = useOutlet()
 
@@ -82,11 +82,11 @@ const BasicLayout = props => {
         }
       }}
       logo={() => <img src={DEFAULT_LOGO} alt='logo' style={{ height: '35px' }} onClick={handleGoToHome} />}
-      title={'织月文案'}
-      menuDataRender={() => authRoute}
+      title={defaultName}
       contentStyle={{ padding: 0 }}
       onCollapse={handleCoolapse}
       iconfontUrl={ICON_FONT_URL}
+      menuDataRender={() => authRoute}
       menuItemRender={(menu, dom) => {
         return <Link to={menu.path}>{dom}</Link>
       }}

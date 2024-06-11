@@ -1,5 +1,5 @@
 // 全局共享数据示例
-import { DEFAULT_NAME, UPLOAD_URL, BASE_COLOR } from '@/constants'
+import { DEFAULT_NAME, UPLOAD_URL, BASE_COLOR, DEFAULT_LOGO, ICON_FONT_URL } from '@/constants'
 import { useState } from 'react'
 import { login, getUserInfo } from '@/services/UserManage'
 import { getAccessToken } from '@/utils/utils'
@@ -48,8 +48,11 @@ export default () => {
     authList,
     setAuthList,
 
+    // 全局常量
     UPLOAD_URL,
     BASE_COLOR,
+    DEFAULT_LOGO,
+    ICON_FONT_URL,
 
     Login,
     GetUserInfo,

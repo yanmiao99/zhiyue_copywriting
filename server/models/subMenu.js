@@ -1,10 +1,15 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Menu extends Model {
-    static associate(models) {}
+  class SubMenu extends Model {
+    static associate(models) {
+      SubMenu.belongsTo(models.Category, {
+        foreignKey: 'parentId',
+        targetKey: 'id',
+      });
+    }
   }
 
-  Menu.init(
+  SubMenu.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -17,19 +22,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      // 是否是父级菜单
-      parentId: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0, // 0 是父级菜单 id 是子级菜单
-        allowNull: false,
-      },
       // 菜单路径
       path: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      // 菜单图标
-      icon: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -47,8 +41,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Menu',
+      modelName: 'SubMenu',
     }
   );
-  return Menu;
+  return SubMenu;
 };

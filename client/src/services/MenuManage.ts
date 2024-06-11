@@ -31,3 +31,37 @@ export async function updateMenu<T>(data: T) {
     data
   })
 }
+
+// 子菜单 ------------------------------
+
+// 获取子菜单列表
+export async function getSubMenuList<T>(data: T) {
+  return request('/api/subMenu/list', {
+    method: 'GET',
+    data
+  })
+}
+
+// 新增子菜单
+export async function addSubMenu<T>(data: T) {
+  return request('/api/subMenu/add', {
+    method: 'POST',
+    data
+  })
+}
+
+// 删除子菜单
+export async function deleteSubMenu<T>(data: T) {
+  return request('/api/subMenu/delete', {
+    method: 'POST',
+    data
+  })
+}
+
+// 更新子菜单
+export async function updateSubMenu<T>(data: T) {
+  return request('/api/subMenu/update', {
+    method: 'POST',
+    data
+  })
+}

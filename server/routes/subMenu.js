@@ -5,26 +5,26 @@ const log4js = require('../utils/log4j.js');
 const { validateParams } = require('../utils/index.js');
 const Sequelize = require('sequelize');
 
-// 新增菜单
+// 新增子菜单
 router.post(
   '/add',
   validateParams({
     name: '缺少必传参数 name (菜单名称)',
     path: '缺少必传参数 path (菜单路径)',
-    icon: '缺少必传参数 icon (菜单图标)',
     sort: '缺少必传参数 sort (排序)',
+    parentId: '缺少必传参数 parentId (父级菜单id)',
   }),
   async (req, res) => {
-    const { name, path, icon, sort } = req.body;
+    const { name, path, sort, parentId } = req.body;
 
     // 判断名称是否存在, 如果已经存在,则不允许重名
-    const menu = await Menu.findOne({
+    const subMenu = await SubMenu.findOne({
       where: {
         name,
         isDelete: 0,
       },
     });
-    if (menu) {
+    if (subMenu) {
       res.send({
         code: 400,
         msg: '菜单名称已存在',
@@ -34,11 +34,11 @@ router.post(
     }
 
     try {
-      await Menu.create({
+      await SubMenu.create({
         name,
         path,
-        icon,
         sort,
+        parentId,
       });
       log4js.info('添加菜单成功');
       res.send({
@@ -48,6 +48,7 @@ router.post(
       });
     } catch (err) {
       log4js.error(err);
+      console.log('err========', err);
       res.send({
         code: 400,
         msg: '网络错误,请重试 ~ ',
@@ -57,7 +58,7 @@ router.post(
   }
 );
 
-// 删除菜单
+// 删除子菜单
 router.post(
   '/delete',
   validateParams({
@@ -67,25 +68,13 @@ router.post(
     const { id } = req.body;
 
     try {
-      await Menu.update(
-        {
-          isDelete: 1,
-        },
-        {
-          where: {
-            id,
-          },
-        }
-      );
-
-      // 删除菜单后,需要删除菜单下的子菜单
       await SubMenu.update(
         {
           isDelete: 1,
         },
         {
           where: {
-            parentId: id,
+            id,
           },
         }
       );
@@ -107,21 +96,21 @@ router.post(
   }
 );
 
-// 修改菜单
+// 修改子菜单
 router.post(
   '/update',
   validateParams({
     id: '缺少必传参数 id (菜单id)',
     name: '缺少必传参数 name (菜单名称)',
     path: '缺少必传参数 path (菜单路径)',
-    icon: '缺少必传参数 icon (菜单图标)',
     sort: '缺少必传参数 sort (排序)',
+    parentId: '缺少必传参数 parentId (父级菜单id)',
   }),
   async (req, res) => {
-    const { id, name, path, icon, sort } = req.body;
+    const { id, name, path, sort, parentId } = req.body;
 
     // 判断名称和别的菜单是否重名
-    const menu = await Menu.findOne({
+    const subMenu = await SubMenu.findOne({
       where: {
         name,
         isDelete: 0,
@@ -130,7 +119,7 @@ router.post(
         },
       },
     });
-    if (menu) {
+    if (subMenu) {
       res.send({
         code: 400,
         msg: '菜单名称已存在',
@@ -140,12 +129,12 @@ router.post(
     }
 
     try {
-      await Menu.update(
+      await SubMenu.update(
         {
           name,
           path,
-          icon,
           sort,
+          parentId,
         },
         {
           where: {
@@ -170,42 +159,22 @@ router.post(
   }
 );
 
-// 查询菜单
+// 根据父级菜单id查询子菜单
 router.get('/list', async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 999;
-  const name = req.query.name || '';
+  const parentId = req.query.parentId || '';
   try {
     const offset = (page - 1) * limit;
-    const list = await Menu.findAndCountAll({
+    const list = await SubMenu.findAndCountAll({
       where: {
         isDelete: 0,
-        // 模糊查询
-        name: {
-          [Sequelize.Op.like]: `%${name}%`,
-        },
+        parentId: parentId,
       },
       offset,
       limit,
       order: [['sort', 'DESC']], // DESC 降序  ASC 升序
     });
-
-    // list.rows 中的 children 字段是一个数组, 里面存放的是子菜单
-    for (let i = 0; i < list.rows.length; i++) {
-      const item = list.rows[i];
-      const children = await SubMenu.findAll({
-        where: {
-          isDelete: 0,
-          parentId: item.id,
-        },
-      });
-
-      if (children.length) {
-        list.rows[i].dataValues.children = children;
-      } else {
-        list.rows[i].dataValues.children = null;
-      }
-    }
     log4js.info('菜单查询成功');
     res.send({
       code: 200,

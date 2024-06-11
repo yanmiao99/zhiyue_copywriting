@@ -1,5 +1,5 @@
 import { Upload, App } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 import { useModel } from '@umijs/max'
 import { getAccessToken, getUserInfo } from '../../utils/utils'
@@ -68,7 +68,7 @@ const UploadImgList = props => {
       }}
     >
       <div>
-        <PlusOutlined />
+        <PlusCircleOutlined />
         <div
           style={{
             marginTop: 8

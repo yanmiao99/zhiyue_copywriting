@@ -18,5 +18,10 @@ export default [
     name: '菜单管理',
     path: '/manage/MenuManage',
     component: './MenuManage/MenuManage'
+  },
+  {
+    name: '测试',
+    path: '/manage/Test',
+    component: './Test/Test'
   }
 ]

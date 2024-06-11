@@ -1,4 +1,13 @@
-import { getMenuList, addMenu, deleteMenu, updateMenu } from '@/services/MenuManage'
+import {
+  getMenuList,
+  addMenu,
+  deleteMenu,
+  updateMenu,
+  getSubMenuList,
+  addSubMenu,
+  deleteSubMenu,
+  updateSubMenu
+} from '@/services/MenuManage'
 
 export default () => {
   // 获取列表
@@ -21,10 +30,36 @@ export default () => {
     return updateMenu(data)
   }
 
+  // ____________子菜单____________
+
+  // 获取子菜单列表
+  const GetSubMenuList = <T>(data: T) => {
+    return getSubMenuList(data)
+  }
+
+  // 新增子菜单
+  const AddSubMenu = <T>(data: T) => {
+    return addSubMenu(data)
+  }
+
+  // 删除子菜单
+  const DeleteSubMenu = <T>(data: T) => {
+    return deleteSubMenu(data)
+  }
+
+  // 更新子菜单
+  const UpdateSubMenu = <T>(data: T) => {
+    return updateSubMenu(data)
+  }
+
   return {
     GetMenuList,
     AddMenu,
     DeleteMenu,
-    UpdateMenu
+    UpdateMenu,
+    GetSubMenuList,
+    AddSubMenu,
+    DeleteSubMenu,
+    UpdateSubMenu
   }
 }

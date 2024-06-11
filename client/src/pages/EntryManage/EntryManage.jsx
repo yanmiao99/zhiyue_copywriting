@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useModel } from '@umijs/max'
 import { ProTable } from '@ant-design/pro-components'
 import { App, Button, Form, Input, Popconfirm, Space, Select } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 
 export default () => {
@@ -195,7 +195,7 @@ export default () => {
       }}
       headerTitle={
         <Button
-          icon={<PlusOutlined />}
+          icon={<PlusCircleOutlined />}
           onClick={() => handleAddAndEdit('add')}
           key={Math.random().toString()}
           type='primary'
