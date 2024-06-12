@@ -1,15 +1,21 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class CategoryDetails extends Model {
+  class Collection extends Model {
     static associate(models) {
-      CategoryDetails.belongsTo(models.Category, {
-        foreignKey: 'categoryId',
-        targetKey: 'id',
+      // 所属分类详情
+      Collection.belongsTo(models.CategoryDetails, {
+        foreignKey: 'categoryDetailsId', // 关联的外键
+        targetKey: 'id', // 关联的目标字段
+      });
+      // 所属用户
+      Collection.belongsTo(models.User, {
+        foreignKey: 'userId', // 关联的外键
+        targetKey: 'id', // 关联的目标字段
       });
     }
   }
 
-  CategoryDetails.init(
+  Collection.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -17,31 +23,27 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true, // 是否自增
         allowNull: false,
       },
-      // 内容
-      text: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+      // 是否删除
       isDelete: {
         type: DataTypes.INTEGER,
         defaultValue: 0, // 0 在用 1 删除
         allowNull: false,
       },
-      // 是否收藏
-      isCollect: {
+      // 所属分类详情
+      categoryDetailsId: {
         type: DataTypes.INTEGER,
-        defaultValue: 0, // 0 未收藏 1 已收藏
         allowNull: false,
       },
-      categoryId: {
+      // 所属用户
+      userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: 'CategoryDetails',
+      modelName: 'Collection',
     }
   );
-  return CategoryDetails;
+  return Collection;
 };

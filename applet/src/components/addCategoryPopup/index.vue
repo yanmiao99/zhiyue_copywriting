@@ -38,7 +38,7 @@
 
 <script setup>
 import Taro from '@tarojs/taro';
-import { ref, defineEmits } from 'vue';
+import { ref } from 'vue';
 import { categoryAdd } from '@/http/api.js';
 import configProvider from '@/components/configProvider/index.vue';
 

@@ -114,11 +114,14 @@ router.post(
   async (req, res) => {
     const { id, text, icon } = req.body;
 
-    // 判断名称是否存在, 如果已经存在,则不允许重名
+    // 判断分类是否存在,并且不准重名, 除了自己
     const category = await Category.findOne({
       where: {
         text,
         isDelete: 0,
+        id: {
+          [Sequelize.Op.ne]: id,
+        },
       },
     });
     if (category) {

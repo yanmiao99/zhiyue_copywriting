@@ -98,8 +98,9 @@ const getCurrentUserInfo = async () => {
 	formData.value = res.data;
 	formData.value.fileList = [
 		{
-			name: '头像1.png',
-			url: res.data.avatar,
+			name: '用户头像.png',
+			url:
+				res.data.avatar || 'https://qny.weizulin.cn/images/202406112051793.png',
 			status: 'success',
 			message: '上传成功',
 			type: 'image',
@@ -135,7 +136,7 @@ const beforeXhrUpload = (taroUploadFile, options) => {
 					title: '上传成功',
 					icon: 'success',
 				});
-				formData.value.icon = data.data.img_url;
+				formData.value.avatar = data.data.img_url;
 			} else {
 				Taro.showToast({
 					title: '上传失败',

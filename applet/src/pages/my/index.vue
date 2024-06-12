@@ -38,6 +38,7 @@
 				</nut-cell-group> -->
 
 				<nut-cell-group title="账号">
+					<nut-cell title="我的收藏" is-link @click="handleCollection()" />
 					<nut-cell title="退出登录" is-link @click="handleOutUser()" />
 				</nut-cell-group>
 
@@ -87,11 +88,9 @@ import dayjs from 'dayjs';
 import { Setting } from '@nutui/icons-vue-taro';
 
 // 每次进入页面都会触发
-onMounted(() => {
+useDidShow(() => {
 	getCurrentUserInfo();
 });
-
-useDidShow(() => {});
 
 const currentInfo = ref({}); // 当前用户信息
 
@@ -142,16 +141,30 @@ const handleLogin = () => {
 	});
 };
 
-// 退出登录
-const handleOutUser = () => {
+// 判断是否登录
+const isLogin = () => {
 	const token = Taro.getStorageSync('token');
 	if (!token) {
 		Taro.showToast({
 			title: '您还未登录',
 			icon: 'none',
 		});
-		return;
+		return false;
 	}
+	return true;
+};
+
+// 跳转收藏
+const handleCollection = () => {
+	if (!isLogin()) return;
+	Taro.navigateTo({
+		url: '/pages/collection/index',
+	});
+};
+
+// 退出登录
+const handleOutUser = () => {
+	if (!isLogin()) return;
 
 	Taro.showModal({
 		title: '提示',

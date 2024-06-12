@@ -97,7 +97,8 @@
 						@click="handleCollection"
 					>
 						<template #icon>
-							<Star />
+							<Star v-if="!boxData?.isCollect" />
+							<StarFillN color="#FBDD02" v-else />
 						</template>
 						收藏
 					</nut-button>
@@ -112,7 +113,11 @@
 						</template>
 						分享
 					</nut-button>
-					<nut-button style="border: none" shape="square" @click="handleCopy">
+					<nut-button
+						style="border: none"
+						shape="square"
+						@click="onCopyText(boxData.text)"
+					>
 						<template #icon>
 							<Fabulous />
 						</template>
@@ -132,10 +137,20 @@ import Taro, {
 	useShareAppMessage,
 	useRouter,
 } from '@tarojs/taro';
-import { categoryDetailsList } from '@/http/api.js';
+import {
+	categoryDetailsList,
+	collectionAdd,
+	collectionDelete,
+} from '@/http/api.js';
 import configProvider from '@/components/configProvider/index.vue';
-import { RectLeft, Share, Fabulous, Star } from '@nutui/icons-vue-taro';
-import { goBackPage } from '@/utils/index.js';
+import {
+	RectLeft,
+	Share,
+	Fabulous,
+	Star,
+	StarFillN,
+} from '@nutui/icons-vue-taro';
+import { goBackPage, onCopyText } from '@/utils/index.js';
 import dayjs from 'dayjs';
 
 import { useGetNavHeight } from '@/hooks/useGetNavHeight.js';
@@ -212,10 +227,10 @@ const handleDetailList = async (categoryId, type) => {
 
 	const res = await categoryDetailsList(params);
 
-	// boxDataList.value = res.data.list;
 	boxDataList.value = [...boxDataList.value, ...res.data.list];
 
 	boxData.value = res.data.list[0];
+	btnShow.value = true;
 
 	currentTitle.value = res.data.list[0].categoryTitle;
 
@@ -243,34 +258,29 @@ const handleShare = () => {
 };
 
 // 收藏
-const handleCollection = () => {
-	// todo ...
-	// Taro.showToast({
-	// 	title: '收藏成功',
-	// 	icon: 'success',
-	// 	duration: 2000,
-	// });
-};
+const handleCollection = async () => {
+	let params = {
+		categoryDetailsId: boxData.value.id,
+	};
 
-// 复制
-const handleCopy = () => {
-	Taro.setClipboardData({
-		data: boxData.value.text,
-		success: () => {
-			Taro.showToast({
-				title: '复制成功',
-				icon: 'success',
-				duration: 2000,
-			});
-		},
-		fail: () => {
-			Taro.showToast({
-				title: '复制失败',
-				icon: 'none',
-				duration: 2000,
-			});
-		},
-	});
+	if (boxData.value.isCollect) {
+		await collectionDelete(params);
+		Taro.showToast({
+			title: '取消收藏成功',
+			icon: 'success',
+			duration: 2000,
+		});
+	} else {
+		await collectionAdd(params);
+		Taro.showToast({
+			title: '收藏成功',
+			icon: 'success',
+			duration: 2000,
+		});
+	}
+
+	// 乐观ui
+	boxData.value.isCollect = !boxData.value.isCollect;
 };
 
 // swiper切换

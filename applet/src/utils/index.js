@@ -11,3 +11,32 @@ export const goBackPage = () => {
 		Taro.navigateBack();
 	}
 };
+
+// 复制文字
+export const onCopyText = (text) => {
+	if (!text) {
+		Taro.showToast({
+			title: '复制内容不能为空',
+			icon: 'none',
+			duration: 2000,
+		});
+		return;
+	}
+	Taro.setClipboardData({
+		data: text,
+		success: () => {
+			Taro.showToast({
+				title: '复制成功',
+				icon: 'success',
+				duration: 2000,
+			});
+		},
+		fail: () => {
+			Taro.showToast({
+				title: '复制失败',
+				icon: 'none',
+				duration: 2000,
+			});
+		},
+	});
+};

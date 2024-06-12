@@ -5,6 +5,7 @@ export default defineAppConfig({
 		'pages/my/index',
 		'pages/login/index',
 		'pages/updateUserInfo/index',
+		'pages/collection/index',
 	],
 	tabBar: {
 		color: '#383838',
@@ -28,7 +29,7 @@ export default defineAppConfig({
 	},
 	window: {
 		backgroundTextStyle: 'light',
-		navigationBarBackgroundColor: '#FBDD02',
+		navigationBarBackgroundColor: '#fff',
 		navigationBarTitleText: 'WeChat',
 		navigationBarTextStyle: 'black',
 	},

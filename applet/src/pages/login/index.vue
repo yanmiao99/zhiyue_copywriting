@@ -50,6 +50,7 @@
 							v-if="loginType === 'register'"
 						>
 							<nut-input
+								clearable
 								v-model="formData.username"
 								placeholder="请输入昵称"
 								type="text"
@@ -57,6 +58,7 @@
 						</nut-form-item>
 						<nut-form-item label="" prop="email">
 							<nut-input
+								clearable
 								v-model="formData.email"
 								placeholder="请输入邮箱"
 								type="text"
@@ -64,6 +66,7 @@
 						</nut-form-item>
 						<nut-form-item label="" prop="password">
 							<nut-input
+								clearable
 								v-model="formData.password"
 								placeholder="请输入密码"
 								type="password"
@@ -72,6 +75,7 @@
 						<nut-form-item label="" prop="code" v-if="loginType === 'register'">
 							<View class="login_code_border">
 								<nut-input
+									clearable
 									v-model="formData.code"
 									placeholder="请输入验证码"
 									type="text"

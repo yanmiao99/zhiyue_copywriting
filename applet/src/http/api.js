@@ -52,3 +52,30 @@ export const categoryDetailsAdd = (data) => {
 		method: 'POST',
 	});
 };
+
+// 添加收藏
+export const collectionAdd = (data) => {
+	return request({
+		url: '/collection/add',
+		data,
+		method: 'POST',
+	});
+};
+
+// 删除收藏
+export const collectionDelete = (data) => {
+	return request({
+		url: '/collection/delete',
+		data,
+		method: 'POST',
+	});
+};
+
+// 查询收藏列表
+export const collectionList = (data) => {
+	return request({
+		url: '/collection/list',
+		data,
+		method: 'GET',
+	});
+};

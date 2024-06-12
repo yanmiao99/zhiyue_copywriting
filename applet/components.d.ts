@@ -16,6 +16,7 @@ declare module 'vue' {
     NutCell: typeof import('@nutui/nutui-taro')['Cell']
     NutCellGroup: typeof import('@nutui/nutui-taro')['CellGroup']
     NutConfigProvider: typeof import('@nutui/nutui-taro')['ConfigProvider']
+    NutEmpty: typeof import('@nutui/nutui-taro')['Empty']
     NutForm: typeof import('@nutui/nutui-taro')['Form']
     NutFormItem: typeof import('@nutui/nutui-taro')['FormItem']
     NutGrid: typeof import('@nutui/nutui-taro')['Grid']

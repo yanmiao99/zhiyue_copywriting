@@ -47,7 +47,7 @@
 
 <script setup>
 import Taro from '@tarojs/taro';
-import { ref, defineEmits, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { categoryList, categoryDetailsAdd } from '@/http/api.js';
 import configProvider from '@/components/configProvider/index.vue';
 
