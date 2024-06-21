@@ -334,7 +334,8 @@ const handleNext = () => {
 	.box_card_header {
 		width: 100%;
 		height: 800px;
-		background: linear-gradient(180deg, #f6ce62, #f0d563, transparent);
+		// background: linear-gradient(180deg, #f6ce62, #f0d563, transparent);
+		background: url('@/assets/images/gradient_bg.png') no-repeat;
 		padding-left: 20px;
 		box-sizing: border-box;
 		color: #333;

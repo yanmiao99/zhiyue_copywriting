@@ -1,6 +1,16 @@
 <template>
 	<configProvider>
 		<View class="my_wrapper">
+			<View
+				class="my_header"
+				:style="{ paddingTop: `${headerTitleTop + 10}px` }"
+			>
+				<View class="my_header_title">
+					<RectLeft size="20" color="#333" @click="goBackPage" />
+					我的
+				</View>
+			</View>
+
 			<View class="my_content" :style="{ top: `${navBarHeight}px` }">
 				<View class="my_user_box" @click="handleLogin">
 					<View class="my_user_avatar">
@@ -83,9 +93,10 @@ import configProvider from '@/components/configProvider/index.vue';
 import Taro, { useDidShow } from '@tarojs/taro';
 import { getUserInfo } from '@/http/login.js';
 import { useGetNavHeight } from '@/hooks/useGetNavHeight.js';
-const { navBarHeight } = useGetNavHeight();
+const { navBarHeight, headerTitleTop } = useGetNavHeight();
 import dayjs from 'dayjs';
-import { Setting } from '@nutui/icons-vue-taro';
+import { Setting, RectLeft } from '@nutui/icons-vue-taro';
+import { goBackPage } from '@/utils/index.js';
 
 // 每次进入页面都会触发
 useDidShow(() => {
@@ -188,7 +199,9 @@ const handleOutUser = () => {
 	.my_header {
 		width: 100%;
 		height: 1000px;
-		background: linear-gradient(180deg, #f6ce62, #f0d563, transparent);
+		// background: linear-gradient(180deg, #f6ce62, #f0d563, transparent);
+		// background: url('../../assets/images/gradient_bg.png') no-repeat;
+		background: url('@/assets/images/gradient_bg.png') no-repeat;
 		padding-left: 20px;
 		box-sizing: border-box;
 		color: #333;

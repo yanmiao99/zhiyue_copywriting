@@ -1,10 +1,7 @@
 <template>
 	<configProvider>
 		<View class="index_wrapper">
-			<View class="index_header" :style="{ paddingTop: `${headerTitleTop}px` }">
-				<Text class="index_header_title">织月文案</Text>
-				<Text class="index_header_slogan">用心诉说，用字传情</Text>
-			</View>
+			<gradientHeader title="织月文案" subTitle="用心诉说，用字传情" />
 
 			<View class="index_content" :style="{ top: `${navBarHeight}px` }">
 				<View class="index_barrage">
@@ -48,6 +45,7 @@ import Taro from '@tarojs/taro';
 import { categoryList } from '@/http/api.js';
 import configProvider from '@/components/configProvider/index.vue';
 import { Refresh2 } from '@nutui/icons-vue-taro';
+import gradientHeader from '@/components/gradientHeader/index.vue';
 
 import { useGetNavHeight } from '@/hooks/useGetNavHeight.js';
 const { navBarHeight, headerTitleTop } = useGetNavHeight();
@@ -96,25 +94,6 @@ const handleBoxClick = (item) => {
 .index_wrapper {
 	width: 100%;
 	position: relative;
-	.index_header {
-		width: 100%;
-		height: 800px;
-		background: linear-gradient(180deg, #f6ce62, #f0d563, transparent);
-		padding-left: 20px;
-		box-sizing: border-box;
-		display: flex;
-		flex-direction: column;
-		color: #333;
-
-		.index_header_title {
-			font-size: 40px;
-			font-weight: bold;
-		}
-
-		.index_header_slogan {
-			font-size: 26px;
-		}
-	}
 
 	.index_content {
 		width: 100%;

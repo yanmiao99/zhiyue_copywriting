@@ -11,6 +11,7 @@ declare module 'vue' {
     AddEntryPopup: typeof import('./src/components/addEntryPopup/index.vue')['default']
     ConfigProvider: typeof import('./src/components/configProvider/index.vue')['default']
     CustomHeader: typeof import('./src/components/customHeader/index.vue')['default']
+    GradientHeader: typeof import('./src/components/gradientHeader/index.vue')['default']
     NutBarrage: typeof import('@nutui/nutui-taro')['Barrage']
     NutButton: typeof import('@nutui/nutui-taro')['Button']
     NutCell: typeof import('@nutui/nutui-taro')['Cell']
