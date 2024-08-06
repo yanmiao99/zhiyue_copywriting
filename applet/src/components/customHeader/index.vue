@@ -7,7 +7,7 @@
 		>
 			<RectLeft size="16" :color="textColor" />
 		</View>
-		<Text class="nav_custom_bar_title" :style="{ color: textColor }">
+		<Text class="nav_custom_bar_title">
 			{{ title }}
 		</Text>
 		<View></View>
@@ -63,7 +63,7 @@ const props = defineProps({
 		}
 	}
 	.nav_custom_bar_title {
-		font-size: 30px;
+		font-size: 50px;
 		font-family:
 			Microsoft YaHei,
 			Microsoft YaHei-Regular;

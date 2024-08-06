@@ -8,6 +8,7 @@ export default defineAppConfig({
 		'pages/collection/index',
 	],
 	tabBar: {
+		custom: true,
 		color: '#383838',
 		selectedColor: '#333',
 		backgroundColor: '#fff',

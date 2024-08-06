@@ -1,7 +1,7 @@
 <template>
 	<configProvider>
 		<View class="index_wrapper">
-			<gradientHeader title="织月文案" subTitle="用心诉说，用字传情" />
+			<gradientHeader title="织月文案" />
 
 			<View class="index_content" :style="{ top: `${navBarHeight}px` }">
 				<View class="index_barrage">
@@ -45,7 +45,6 @@ import Taro from '@tarojs/taro';
 import { categoryList } from '@/http/api.js';
 import configProvider from '@/components/configProvider/index.vue';
 import { Refresh2 } from '@nutui/icons-vue-taro';
-import gradientHeader from '@/components/gradientHeader/index.vue';
 
 import { useGetNavHeight } from '@/hooks/useGetNavHeight.js';
 const { navBarHeight, headerTitleTop } = useGetNavHeight();

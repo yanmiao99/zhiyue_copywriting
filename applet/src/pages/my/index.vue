@@ -200,8 +200,6 @@ const handleOutUser = () => {
 		width: 100%;
 		height: 1000px;
 		// background: linear-gradient(180deg, #f6ce62, #f0d563, transparent);
-		// background: url('../../assets/images/gradient_bg.png') no-repeat;
-		background: url('@/assets/images/gradient_bg.png') no-repeat;
 		padding-left: 20px;
 		box-sizing: border-box;
 		color: #333;

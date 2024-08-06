@@ -1,7 +1,16 @@
 <template>
-	<View class="gradient_header" :style="{ paddingTop: `${headerTitleTop}px` }">
-		<Text class="gradient_header_title">{{ title }}</Text>
-		<Text class="gradient_header_slogan">{{ subTitle }}</Text>
+	<View class="nav_custom_bar" :style="{ paddingTop: `${headerTitleTop}px` }">
+		<View
+			class="nav_custom_bar_back"
+			:class="{ hidden: !backIcon }"
+			@click="goBackPage"
+		>
+			<RectLeft size="18" :color="textColor" />
+		</View>
+		<Text class="nav_custom_bar_title">
+			{{ title }}
+		</Text>
+		<View></View>
 	</View>
 </template>
 
@@ -9,6 +18,8 @@
 import { View, Text } from '@tarojs/components';
 import { useGetNavHeight } from '@/hooks/useGetNavHeight.js';
 const { navBarHeight, headerTitleTop } = useGetNavHeight();
+import { goBackPage } from '@/utils/index.js';
+import { RectLeft } from '@nutui/icons-vue-taro';
 
 import { onMounted, ref } from 'vue';
 
@@ -17,13 +28,17 @@ const props = defineProps({
 		type: String,
 		default: '标题',
 	},
-	subTitle: {
-		type: String,
-		default: '副标题',
-	},
 	bgColor: {
 		type: String,
 		default: null,
+	},
+	backIcon: {
+		type: Boolean,
+		default: false,
+	},
+	textColor: {
+		type: String,
+		default: '#333',
 	},
 });
 
@@ -33,32 +48,36 @@ onMounted(() => {
 	if (props.bgColor) {
 		currentBg.value = props.bgColor;
 	} else {
-		// currentBg.value = url('@/assets/images/gradient_bg.png');
-		currentBg.value = "url('@/assets/images/gradient_bg.png')";
+		currentBg.value = 'linear-gradient(180deg, #D0FC51, transparent)';
 	}
 });
 </script>
 
 <style lang="less">
-.gradient_header {
+.nav_custom_bar {
 	width: 100%;
-	height: 800px;
-	// background: linear-gradient(180deg, #f6ce62, #f0d563, transparent);
-	// background: url('@/assets/images/gradient_bg.png') no-repeat;
+	height: 70vh;
 	background: v-bind(currentBg);
 	padding-left: 20px;
 	box-sizing: border-box;
 	display: flex;
-	flex-direction: column;
 	color: #333;
 
-	.gradient_header_title {
-		font-size: 40px;
-		font-weight: bold;
+	.nav_custom_bar_back {
+		margin-top: 30px;
+		margin-right: 10px;
+		&.hidden {
+			display: none;
+		}
 	}
-
-	.gradient_header_slogan {
-		font-size: 26px;
+	.nav_custom_bar_title {
+		font-size: 40px;
+		font-family:
+			Microsoft YaHei,
+			Microsoft YaHei-Regular;
+		font-weight: 400;
+		text-align: left;
+		margin-top: 20px;
 	}
 }
 </style>

@@ -1,15 +1,7 @@
 <template>
 	<configProvider>
 		<View class="box_card_wrapper">
-			<View
-				class="box_card_header"
-				:style="{ paddingTop: `${headerTitleTop + 10}px` }"
-			>
-				<View class="box_card_header_title">
-					<RectLeft size="20" color="#333" @click="goBackPage" />
-					<Text> {{ currentTitle }} </Text>
-				</View>
-			</View>
+			<gradientHeader :title="currentTitle" backIcon />
 
 			<View class="box_card_banner" :style="{ top: `${navBarHeight + 20}px` }">
 				<Image
@@ -331,22 +323,6 @@ const handleNext = () => {
 }
 .box_card_wrapper {
 	width: 100%;
-	.box_card_header {
-		width: 100%;
-		height: 800px;
-		// background: linear-gradient(180deg, #f6ce62, #f0d563, transparent);
-		background: url('@/assets/images/gradient_bg.png') no-repeat;
-		padding-left: 20px;
-		box-sizing: border-box;
-		color: #333;
-
-		.box_card_header_title {
-			display: flex;
-			align-items: center;
-			font-size: 40px;
-		}
-	}
-
 	.box_card_banner {
 		position: absolute;
 		width: 100%;

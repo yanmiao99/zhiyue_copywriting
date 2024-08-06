@@ -54,7 +54,8 @@
     "@tarojs/shared": "3.6.30",
     "@tarojs/taro": "3.6.30",
     "dayjs": "^1.11.11",
-    "vue": "^3.2.40"
+    "pinia": "^2.1.7",
+    "vue": "^3.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
